@@ -1,10 +1,10 @@
 const express=require("express");
 const app=express();
-const port=3000
 const { createServer } = require("http");
 const client = require("./src/database.");
 const getAllUsers = require("./src/routes/addAllUsers");
 
+const port=process.env.PORT || 3000
 
 const httpServer = createServer(app);
 
@@ -15,7 +15,7 @@ app.use(express.urlencoded({
 
 
 httpServer.listen(port,()=>{
-  console.log("Server started")
+  console.log(`Server started at ${port}`)
   client.connect()
 });
 
