@@ -3,7 +3,7 @@ const getAllUsers=express.Router();
 const client = require('../database.');
 
 getAllUsers.get("/getUsers",(req,res)=>{
-    client.query(`SELECT * FROM users`, (err, data) => {
+    client.query(`SELECT * FROM sellers`, (err, data) => {
         if(err){
             res.send({data:"Something went wrong!!"})
         }
