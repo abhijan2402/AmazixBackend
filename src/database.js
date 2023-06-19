@@ -5,4 +5,4 @@ const client = new Client({
     connectionString,
 });
 
-module.exports=client;
+module.exports = client;
