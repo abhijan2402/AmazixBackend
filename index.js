@@ -10,6 +10,7 @@ const deleteChats = require("./src/routes/chat/delete");
 const deleteOrder = require("./src/routes/orders/delete");
 const addNewOrder = require("./src/routes/orders/create");
 const addNewChat = require("./src/routes/chat/create");
+const seller = require("./src/routes/sellerroute");
 const port = process.env.PORT || 3000
 
 const httpServer = createServer(app);
@@ -26,6 +27,8 @@ httpServer.listen(port, () => {
 });
 
 app.use(getAllUsers);
+app.use(seller)
+//Coupen
 app.use(Coupen);
 
 //chats

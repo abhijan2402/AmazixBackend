@@ -1,10 +1,10 @@
 const express = require('express');
 const Coupen = express.Router();
 const client = require('../database');
-
+const { v4: uuidv4 } = require('uuid');
 
 Coupen.post("/coupen/perCoupen", (req, res) => {
-    client.query("INSERT INTO percoupon (id, discountAmount,minOrderAmount,usesPerCustomer,startDate,endDate,validPaymentType,CouponCode,isActive,storeId) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7, $8, $9, $10)", [req.body.id, req.body.discountAmount, req.body.minOrderAmount, req.body.usesPerCustomer, req.body.startDate, req.body.endDate, req.body.validPaymentType, req.body.CouponCode, req.body.isActive, req.body.storeId,], (err, data) => {
+    client.query("INSERT INTO percoupon (id, discountAmount,minOrderAmount,usesPerCustomer,startDate,endDate,validPaymentType,CouponCode,isActive,storeId) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7, $8, $9, $10)", [uuidv4(), req.body.discountAmount, req.body.minOrderAmount, req.body.usesPerCustomer, req.body.startDate, req.body.endDate, req.body.validPaymentType, req.body.CouponCode, req.body.isActive, req.body.storeId,], (err, data) => {
         if (err) {
             console.log("hi");
             res.send({ data: err, message: "Problem" })
@@ -18,7 +18,7 @@ Coupen.post("/coupen/perCoupen", (req, res) => {
 
 
 Coupen.post("/coupen/BuyGet", (req, res) => {
-    client.query("INSERT INTO buyget (id, buyVal,getVal,minOrderAmount,usesPerCustomer,startDate,endDate,validPaymentType,CouponCode,isActive,storeId) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7, $8, $9, $10,$11)", [req.body.id, req.body.buyVal, req.body.getVal, req.body.minOrderAmount, req.body.usesPerCustomer, req.body.startDate, req.body.endDate, req.body.validPaymentType, req.body.CouponCode, req.body.isActive, req.body.storeId,], (err, data) => {
+    client.query("INSERT INTO buyget (id, buyVal,getVal,minOrderAmount,usesPerCustomer,startDate,endDate,validPaymentType,CouponCode,isActive,storeId) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7, $8, $9, $10,$11)", [uuidv4(), req.body.buyVal, req.body.getVal, req.body.minOrderAmount, req.body.usesPerCustomer, req.body.startDate, req.body.endDate, req.body.validPaymentType, req.body.CouponCode, req.body.isActive, req.body.storeId,], (err, data) => {
         if (err) {
             console.log("hi");
             res.send({ data: err, message: "Problem" })
@@ -32,7 +32,7 @@ Coupen.post("/coupen/BuyGet", (req, res) => {
 
 
 Coupen.post("/coupen/FlatCoupon", (req, res) => {
-    client.query("INSERT INTO flatcoupon (id, discountAmount,minOrderAmount,usesPerCustomer,startDate,endDate,validPaymentType,CouponCode,isActive,storeId) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7, $8, $9, $10)", [req.body.id, req.body.discountAmount, req.body.minOrderAmount, req.body.usesPerCustomer, req.body.startDate, req.body.endDate, req.body.validPaymentType, req.body.CouponCode, req.body.isActive, req.body.storeId,], (err, data) => {
+    client.query("INSERT INTO flatcoupon (id, discountAmount,minOrderAmount,usesPerCustomer,startDate,endDate,validPaymentType,CouponCode,isActive,storeId) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7, $8, $9, $10)", [uuidv4(), req.body.discountAmount, req.body.minOrderAmount, req.body.usesPerCustomer, req.body.startDate, req.body.endDate, req.body.validPaymentType, req.body.CouponCode, req.body.isActive, req.body.storeId,], (err, data) => {
         if (err) {
             console.log("hi");
             res.send({ data: err, message: "Problem" })
