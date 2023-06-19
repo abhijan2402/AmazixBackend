@@ -11,6 +11,7 @@ const deleteOrder = require("./src/routes/orders/delete");
 const addNewOrder = require("./src/routes/orders/create");
 const addNewChat = require("./src/routes/chat/create");
 const seller = require("./src/routes/sellerroute");
+const Feedback = require("./src/routes/FeedBackRoute");
 const port = process.env.PORT || 3000
 
 const httpServer = createServer(app);
@@ -30,6 +31,10 @@ app.use(getAllUsers);
 app.use(seller)
 //Coupen
 app.use(Coupen);
+
+
+//Feedback
+app.use(Feedback)
 
 //chats
 app.use(getAllChats);
