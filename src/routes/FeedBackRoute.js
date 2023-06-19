@@ -4,16 +4,17 @@ const client = require('../database');
 const { v4: uuidv4 } = require('uuid');
 
 Feedback.post("/feedback/", (req, res) => {
-    client.query("INSERT INTO Feedback (id, Fmessage,frating,shopid,senderid) VALUES ($1, $2 ,$3, $4,$5 )", [uuidv4(), req.body.Fmessage, req.body.frating, req.body.shopid, req.body.senderid,], (err, data) => {
-        if (err) {
-            console.log("hi");
-            res.send({ data: err, message: "Problem" })
-        }
-        else {
-            console.log("hello");
-            res.send({ data: data.rows, message: "You data is inserted" })
-        }
-    })
+    client.query("INSERT INTO Feedback (id, Fmessage,frating,shopid,senderid) VALUES ($1, $2 ,$3, $4,$5 )",
+        [uuidv4(), req.body.Fmessage, req.body.frating, req.body.shopid, req.body.senderid,], (err, data) => {
+            if (err) {
+                console.log("hi");
+                res.send({ data: err, message: "Problem" })
+            }
+            else {
+                console.log("hello");
+                res.send({ data: data.rows, message: "You data is inserted" })
+            }
+        })
 });
 
 

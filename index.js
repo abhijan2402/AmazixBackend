@@ -12,6 +12,8 @@ const addNewOrder = require("./src/routes/orders/create");
 const addNewChat = require("./src/routes/chat/create");
 const seller = require("./src/routes/sellerroute");
 const Feedback = require("./src/routes/FeedBackRoute");
+const Wallet = require("./src/routes/walletRoute");
+const Notification = require("./src/routes/NotificationRoute");
 const port = process.env.PORT || 3000
 
 const httpServer = createServer(app);
@@ -35,6 +37,13 @@ app.use(Coupen);
 
 //Feedback
 app.use(Feedback)
+
+
+//wallet
+app.use(Wallet)
+
+//notif
+app.use(Notification)
 
 //chats
 app.use(getAllChats);
