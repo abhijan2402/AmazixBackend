@@ -3,8 +3,9 @@ const Feedback = express.Router();
 const client = require('../database');
 const { v4: uuidv4 } = require('uuid');
 
-Feedback.post("/feedback/", (req, res) => {
-    client.query("INSERT INTO Feedback (id, Fmessage,frating,shopid,senderid) VALUES ($1, $2 ,$3, $4,$5 )",
+Feedback.post("/feedback", (req, res) => {
+    console.log(req.body)
+    client.query("INSERT INTO Feedback (id, Fmessage,frating,shopid,senderid) VALUES ($1, $2 ,$3, $4,$5 ) RETURNING *",
         [uuidv4(), req.body.Fmessage, req.body.frating, req.body.shopid, req.body.senderid,], (err, data) => {
             if (err) {
                 console.log("hi");

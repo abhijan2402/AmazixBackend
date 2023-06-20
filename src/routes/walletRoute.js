@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 
 
 Wallet.post("/wallet", (req, res) => {
-    client.query("INSERT INTO wallet (id, TransactionType,Amount,SenderName,SenderId,ReceiverId,ReceiverName) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7)",
+    client.query("INSERT INTO wallet (id, TransactionType,Amount,SenderName,SenderId,ReceiverId,ReceiverName) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7) RETURNING *",
         [uuidv4(), req.body.TransactionType, req.body.Amount, req.body.SenderName, req.body.SenderId, req.body.ReceiverId, req.body.ReceiverName], (err, data) => {
             if (err) {
                 res.status(401).send(err)

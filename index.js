@@ -15,6 +15,9 @@ const Feedback = require("./src/routes/FeedBackRoute");
 const Wallet = require("./src/routes/walletRoute");
 const Notification = require("./src/routes/NotificationRoute");
 const port = process.env.PORT || 3000
+const envVariables = require('dotenv')
+
+envVariables.config()
 
 const httpServer = createServer(app);
 

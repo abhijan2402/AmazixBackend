@@ -5,8 +5,8 @@ const { v4: uuidv4 } = require('uuid');
 
 
 Notification.post("/notification", (req, res) => {
-    client.query("INSERT INTO notification (id, ShopName,NotificationTitle,NotificationTimeDate,isSeen,SenderId,ReceiverId,NotificationType) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7,$8)",
-        [uuidv4(), req.body.ShopName, req.body.NotificationTitle, req.body.NotificationTimeDate, , req.body.isSeen, req.body.SenderId, req.body.ReceiverId, req.body.NotificationType], (err, data) => {
+    client.query("INSERT INTO notification (id, shopname,notificationtitle,notificationtimeDate,isseen,senderid,receiverid,notificationtype) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7,$8) RETURNING *",
+        [uuidv4(), req.body.ShopName, req.body.NotificationTitle, req.body.NotificationTimeDate, req.body.isSeen, req.body.SenderId, req.body.ReceiverId, req.body.NotificationType], (err, data) => {
             if (err) {
                 res.status(401).send({ data: err, message: "Problem" })
             }
