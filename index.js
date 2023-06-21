@@ -15,7 +15,8 @@ const Feedback = require("./src/routes/FeedBackRoute");
 const Wallet = require("./src/routes/walletRoute");
 const Notification = require("./src/routes/NotificationRoute");
 const port = process.env.PORT || 3000
-const envVariables = require('dotenv')
+const envVariables = require('dotenv');
+const updateDataInTable = require("./src/routes/Update");
 
 envVariables.config()
 
@@ -57,3 +58,6 @@ app.use(addNewChat);
 app.use(getOrders);
 app.use(deleteOrder);
 app.use(addNewOrder);
+
+//update
+app.use(updateDataInTable)
