@@ -17,6 +17,8 @@ const Notification = require("./src/routes/NotificationRoute");
 const port = process.env.PORT || 3000
 const envVariables = require('dotenv');
 const updateDataInTable = require("./src/routes/Update");
+const getTableData = require("./src/routes/get");
+const DeleteTableData = require("./src/routes/Delete");
 
 envVariables.config()
 
@@ -61,3 +63,10 @@ app.use(addNewOrder);
 
 //update
 app.use(updateDataInTable)
+
+
+//get
+app.use(getTableData)
+
+//delete
+app.use(DeleteTableData)
