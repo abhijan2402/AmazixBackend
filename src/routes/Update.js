@@ -32,3 +32,19 @@ updateDataInTable.post("/update", (req, res) => {
 });
 
 module.exports = updateDataInTable;
+
+//request like this from client side
+// fetch("http://192.168.139.30:8000/update",{
+//     method:"post",
+//     headers:{
+//       "Content-Type": "application/json"
+//     },
+//     body:JSON.stringify({
+//       id:id, //this will primary key
+//       updateData:{message:'fd',senderid:"def"},
+//       tablename:"chatmessage"
+//     })
+//   })
+//   .then((res)=>res.json())
+//   .then((e)=>console.log(e))
+//   .catch((e)=>console.log(e))
