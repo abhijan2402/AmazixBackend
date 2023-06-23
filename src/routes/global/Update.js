@@ -1,6 +1,6 @@
 const express = require('express');
+const client = require('../../database');
 const updateDataInTable = express.Router();
-const client = require('../database');
     
 updateDataInTable.post("/update", (req, res) => {
     const {id,updateData,tablename}=req.body;

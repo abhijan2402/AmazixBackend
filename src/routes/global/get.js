@@ -1,6 +1,6 @@
 const express = require('express');
+const client = require('../../database');
 const getTableData = express.Router();
-const client = require('../database');
 
 
 getTableData.get("/getById", (req, res) => {
@@ -23,9 +23,11 @@ getTableData.get("/getAllData", (req, res) => {
 
     client.query(finalQuery, (err, data) => {
         if (err) {
+            console.log(err);
             res.send({ data: err })
         }
         else {
+            console.log(data);
             res.send({ data: data.rows, message: "Your Data is here" })
         }
     })

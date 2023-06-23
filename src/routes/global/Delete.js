@@ -1,6 +1,6 @@
 const express = require('express');
 const DeleteTableData = express.Router();
-const client = require('../database');
+const client = require('../../database');
 
 
 DeleteTableData.delete("/delete", (req, res) => {
@@ -11,7 +11,8 @@ DeleteTableData.delete("/delete", (req, res) => {
             res.send({ data: err })
         }
         else {
-            res.send({ data: data.rows, message: "Your Data is deleted" })
+            // res.send({ data: "Your Data is deleted" })
+            res.status(200).send("Data Deleted")
         }
     })
 })

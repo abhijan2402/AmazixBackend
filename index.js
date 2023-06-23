@@ -16,9 +16,11 @@ const Wallet = require("./src/routes/walletRoute");
 const Notification = require("./src/routes/NotificationRoute");
 const port = process.env.PORT || 3000
 const envVariables = require('dotenv');
-const updateDataInTable = require("./src/routes/Update");
-const getTableData = require("./src/routes/get");
-const DeleteTableData = require("./src/routes/Delete");
+const category = require("./src/routes/Category/Category");
+const product = require("./src/routes/Product/Product");
+const updateDataInTable = require("./src/routes/global/Update");
+const getTableData = require("./src/routes/global/get");
+const DeleteTableData = require("./src/routes/global/Delete");
 
 envVariables.config()
 
@@ -63,6 +65,12 @@ app.use(addNewOrder);
 
 //update
 app.use(updateDataInTable)
+
+//cateory
+app.use(category)
+
+//product
+app.use(product)
 
 
 //get
