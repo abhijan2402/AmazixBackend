@@ -3,7 +3,7 @@ const client = require('../../database');
 const getTableData = express.Router();
 
 
-getTableData.get("/getById", (req, res) => {
+getTableData.post("/getById", (req, res) => {
     const { tableVal, tablename, tablefield } = req.body;
     let finalQuery = `SELECT * FROM  ${tablename} WHERE ${tablefield} = '${tableVal}'`
     client.query(finalQuery, (err, data) => {
