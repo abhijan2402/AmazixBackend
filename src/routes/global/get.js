@@ -4,8 +4,8 @@ const getTableData = express.Router();
 
 
 getTableData.get("/getById", (req, res) => {
-    const { id, tablename } = req.body;
-    let finalQuery = `SELECT * FROM  ${tablename} WHERE id = '${id}'`
+    const { tableVal, tablename, tablefield } = req.body;
+    let finalQuery = `SELECT * FROM  ${tablename} WHERE ${tablefield} = '${tableVal}'`
     client.query(finalQuery, (err, data) => {
         if (err) {
             res.send({ data: err })
