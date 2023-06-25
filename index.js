@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const { createServer } = require("http");
 const client = require("./src/database");
-const getAllUsers = require("./src/routes/addAllUsers");
 const Coupen = require("./src/routes/coupenRoute");
 const getAllChats = require("./src/routes/chat/getChats");
 const getOrders = require("./src/routes/orders/getOrders");
@@ -21,6 +20,7 @@ const product = require("./src/routes/Product/Product");
 const updateDataInTable = require("./src/routes/global/Update");
 const getTableData = require("./src/routes/global/get");
 const DeleteTableData = require("./src/routes/global/Delete");
+const store = require("./src/routes/seller/store");
 
 envVariables.config()
 
@@ -37,7 +37,6 @@ httpServer.listen(port, () => {
   client.connect()
 });
 
-app.use(getAllUsers);
 app.use(seller)
 //Coupen
 app.use(Coupen);
@@ -68,6 +67,9 @@ app.use(updateDataInTable)
 
 //cateory
 app.use(category)
+
+//store
+app.use(store);
 
 //product
 app.use(product)
