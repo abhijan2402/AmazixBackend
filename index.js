@@ -21,6 +21,7 @@ const updateDataInTable = require("./src/routes/global/Update");
 const getTableData = require("./src/routes/global/get");
 const DeleteTableData = require("./src/routes/global/Delete");
 const store = require("./src/routes/seller/store");
+const Banner = require("./src/routes/BannerRoutes");
 
 envVariables.config()
 
@@ -74,6 +75,8 @@ app.use(store);
 //product
 app.use(product)
 
+//Banner
+app.use(Banner)
 
 //get
 app.use(getTableData)
