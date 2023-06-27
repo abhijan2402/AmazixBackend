@@ -4,28 +4,17 @@ const client=require("../../database");
 
 const {v4 : uuidv4} = require('uuid');
 product.post("/product/add",(req,res)=>{
-    const { name,categoryName,price,discountedPrice,quantity,produtType,deiails,variants,paymentMode,tags,imageUrls,storeID}=req.body;
+    const { name,categoryName,price,discountedPrice,quantity,produtType,deiails,variants,paymentMode,tags,imageUrls,storeID,isActive}=req.body;
     const text = `
         INSERT INTO 
-        product(id,name,categoryName,price,discountedPrice,quantity,produtType,deiails,variants,paymentMode,tags,imageUrls,storeID) 
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *
+        product(id,name,categoryName,price,discountedPrice,quantity,produtType,deiails,variants,paymentMode,tags,imageUrls,storeID,isActive) 
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING *
     `;
-    client.query(text,[uuidv4(),name,categoryName,price,discountedPrice,quantity,[...produtType],deiails,[...variants],[...paymentMode],[...tags],[...imageUrls],storeID],(err, data) => {
+    client.query(text,[uuidv4(),name,categoryName,price,discountedPrice,quantity,[...produtType],deiails,[...variants],[...paymentMode],[...tags],[...imageUrls],storeID,isActive],(err, data) => {
         if (err) {
             res.send({data:err});
         } else {
             res.send({data:data.rows[0]})
-        }
-    })
-});
-
-product.get("/product/get",(req,res)=>{
-    const text = `Select * from product`;
-    client.query(text,(err, data) => {
-        if (err) {
-            res.send({data:err});
-        } else {
-            res.send({data:data.rows})
         }
     })
 });
@@ -42,8 +31,8 @@ product.post("/product/get/id",(req,res)=>{
     })
 });
 product.post("/product/get/storeid",(req,res)=>{
-    const {storeid}=req.body;
-    const text = `Select * from product where storeID='${storeid}'`;
+    const {id}=req.body;
+    const text = `Select * from product where storeID='${id}'`;
     client.query(text,(err, data) => {
         if (err) {
             res.send({data:err});

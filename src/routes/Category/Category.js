@@ -4,13 +4,13 @@ const client=require("../../database");
 
 const {v4 : uuidv4} = require('uuid');
 category.post("/category/add",(req,res)=>{
-    const { name,imageurl }=req.body;
+    const { name,imageurl,storeID }=req.body;
     const text = `
         INSERT INTO 
-        caterory(id,name,imageurl) 
-        VALUES ($1,$2,$3) RETURNING *
+        caterory(id,name,imageurl,isActive,storeID,productListed) 
+        VALUES ($1,$2,$3,$4,$5,$6) RETURNING *
     `;
-    client.query(text,[uuidv4(),name,imageurl],(err, data) => {
+    client.query(text,[uuidv4(),name,imageurl,true,storeID,0],(err, data) => {
         if (err) {
             res.send({data:err});
         } else {
@@ -19,8 +19,9 @@ category.post("/category/add",(req,res)=>{
     })
 });
 
-category.get("/category/get",(req,res)=>{
-    const text = `Select * from caterory`;
+category.post("/category/get/id",(req,res)=>{
+    const {id}=req.body;
+    const text = `Select * from caterory where storeID='${id}'`;
     client.query(text,(err, data) => {
         if (err) {
             res.send({data:err});
