@@ -17,7 +17,7 @@ getTableData.post("/getById", (req, res) => {
 })
 
 
-getTableData.get("/getAllData", (req, res) => {
+getTableData.post("/getAllData", (req, res) => {
     const { tablename } = req.body;
     let finalQuery = `SELECT * from  ${tablename}`;
 
