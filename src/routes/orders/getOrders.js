@@ -2,37 +2,33 @@ const express=require('express');
 const getOrders=express.Router();
 const client=require("../../database");
 
-getOrders.get("/getAllOrders",(req,res)=>{
-    const {id}=req.body;
+getOrders.get("/order/get",(req,res)=>{
     client.query(`SELECT * FROM orders`, (err, data) => {
-        if(!err){
-            res.status(200).send(data.rows)
-        }
-        else{
-            res.status(401).send(err)
+        if (err) {
+            res.status(401).send({data:err});
+        } else {
+            res.status(200).send({data:data.rows})
         }
     })
 });
 
-getOrders.get("/getBySellerId",(req,res)=>{
+getOrders.post("/order/storeId",(req,res)=>{
     const {id}=req.body;
     client.query(`SELECT * FROM orders where storeid='${id}'`, (err, data) => {
-        if(!err){
-            res.status(200).send(data.rows)
-        }
-        else{
-            res.status(401).send(err)
+        if (err) {
+            res.status(401).send({data:err});
+        } else {
+            res.status(200).send({data:data.rows})
         }
     })
 })
-getOrders.get("/getByCustomerId",(req,res)=>{
+getOrders.post("/order/customerId",(req,res)=>{
     const {id}=req.body;
     client.query(`SELECT * FROM orders where customerid='${id}'`, (err, data) => {
-        if(!err){
-            res.status(200).send(data.rows)
-        }
-        else{
-            res.status(401).send(err)
+        if (err) {
+            res.status(401).send({data:err});
+        } else {
+            res.status(200).send({data:data.rows})
         }
     })
 })
