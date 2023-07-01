@@ -23,6 +23,7 @@ const DeleteTableData = require("./src/routes/global/Delete");
 const store = require("./src/routes/seller/store");
 const Banner = require("./src/routes/BannerRoutes");
 const Loginhistory = require("./src/routes/LoginHistory/LoginHistory");
+const Address = require("./src/routes/AddressRoute");
 
 envVariables.config()
 
@@ -78,6 +79,9 @@ app.use(product)
 
 //Banner
 app.use(Banner)
+
+//Address
+app.use(Address)
 
 //get
 app.use(getTableData)
