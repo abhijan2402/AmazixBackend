@@ -16,4 +16,15 @@ Loginhistory.post("/Loginhistory", (req, res) => {
     })
    
 });
+Loginhistory.get("/Loginhistory/get",(req,res)=>{
+    const { deliveryboyid } = req.body;
+    client.query(`SELECT * FROM loginhistory where deliveryboyid='${deliveryboyid}'`, (err, data) => {
+        if (!err) {
+            res.status(200).send(data.rows)
+        }
+        else {
+            res.status(401).send(err)
+        }
+    })
+});
 module.exports = Loginhistory;

@@ -25,7 +25,6 @@ const Banner = require("./src/routes/BannerRoutes");
 const Loginhistory = require("./src/routes/LoginHistory/LoginHistory");
 const Address = require("./src/routes/AddressRoute");
 const Customer = require("./src/routes/Customer/Customer");
-
 envVariables.config()
 
 const httpServer = createServer(app);
