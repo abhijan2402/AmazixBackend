@@ -4,14 +4,14 @@ const client=require("../../database");
 
 const {v4 : uuidv4} = require('uuid');
 store.post("/store/add",(req,res)=>{
-    const { ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch }=req.body;
+    const { ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl }=req.body;
     const text = `
         INSERT INTO 
         storedetail( 
-            id,ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *
+            id,ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl,totalProducts,followers,rating)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) RETURNING *
         `;
-    client.query(text,[uuidv4(),ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch],(err, data) => {
+    client.query(text,[uuidv4(),ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl,0,0,0],(err, data) => {
         if (err) {
             res.send({data:err});
         } else {
@@ -44,4 +44,14 @@ store.delete("/store/delete",(req,res)=>{
     })
 })
 
+store.get("/store/get",(req,res)=>{
+    client.query(`Select * FROM storedetail`, (err, data) => {
+        if(!err){
+            res.status(200).send({data:data.rows})
+        }
+        else{
+            res.status(401).send({data:err})
+        }
+    })
+})
 module.exports=store;
