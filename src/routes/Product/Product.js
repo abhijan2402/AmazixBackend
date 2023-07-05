@@ -32,7 +32,7 @@ product.post("/product/get/id",(req,res)=>{
 });
 product.post("/product/get/storeid",(req,res)=>{
     const {id}=req.body;
-    const text = `Select * from product where storeID='${id}'`;
+    const text = `Select * from product where storeID='${id}' and isactive=true`;
     client.query(text,(err, data) => {
         if (err) {
             res.send({data:err});
