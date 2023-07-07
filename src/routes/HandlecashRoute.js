@@ -17,7 +17,17 @@ Handlecash.post("/Handlecash", (req, res) => {
     })
 });
 
-
+Handlecash.get("/Handlecash/get",(req,res)=>{
+    const { deliveryboyid } = req.body;
+    client.query(`SELECT * FROM handlingcash where deliveryboyid='${deliveryboyid}'`, (err, data) => {
+        if (!err) {
+            res.status(200).send(data.rows)
+        }
+        else {
+            res.status(401).send(err)
+        }
+    })
+});
 
 
 
