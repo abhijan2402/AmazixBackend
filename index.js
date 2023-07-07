@@ -25,7 +25,10 @@ const Banner = require("./src/routes/BannerRoutes");
 const Loginhistory = require("./src/routes/LoginHistory/LoginHistory");
 const Address = require("./src/routes/AddressRoute");
 const Customer = require("./src/routes/Customer/Customer");
-const handlingamount = require("./src/routes/HandlingAmount/HandlingAmount");
+const Handlecash = require("./src/routes/HandlecashRoute");
+// const HandlingAmount = require("./src/routes/HandlingAmountRoute/HandlingAmount");
+// // const handlingamount = require("./src/routes/HandlingAmountRoute/HandlingAmount");
+// // const handlingamount = require("./src/routes/HandlingAmount/HandlingAmount");
 
 
 envVariables.config()
@@ -98,5 +101,4 @@ app.use(Loginhistory)
 //customer
 app.use(Customer)
 
-//handlingcash
-app.use(handlingamount)
+app.use(Handlecash)
