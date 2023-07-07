@@ -25,6 +25,9 @@ const Banner = require("./src/routes/BannerRoutes");
 const Loginhistory = require("./src/routes/LoginHistory/LoginHistory");
 const Address = require("./src/routes/AddressRoute");
 const Customer = require("./src/routes/Customer/Customer");
+const handlingamount = require("./src/routes/HandlingAmount/HandlingAmount");
+
+
 envVariables.config()
 
 const httpServer = createServer(app);
@@ -94,3 +97,6 @@ app.use(Loginhistory)
 
 //customer
 app.use(Customer)
+
+//handlingcash
+app.use(handlingamount)
