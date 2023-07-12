@@ -27,6 +27,7 @@ const Address = require("./src/routes/AddressRoute");
 const Customer = require("./src/routes/Customer/Customer");
 const Handlecash = require("./src/routes/HandlecashRoute");
 const Cart = require("./src/routes/Cart/Cart");
+const DeliveryRegis = require("./src/routes/DeliveryRegisteration");
 
 envVariables.config()
 
@@ -102,3 +103,8 @@ app.use(Handlecash)
 
 //cart
 app.use(Cart);
+//Handlecash
+app.use(Handlecash)
+
+//DeliveryRegis
+app.use(DeliveryRegis)
