@@ -22,7 +22,7 @@ Customer.post("/Customer/add",(req,res)=>{
 
 Customer.post("/Customer/get/id",(req,res)=>{
     const {id}=req.body;
-    const text = `Select * from Customer where id='${id}'`;
+    const text = `Select * from customer where id='${id}'`;
     client.query(text,(err, data) => {
         if (err) {
             res.send({data:err});

@@ -26,6 +26,7 @@ const Loginhistory = require("./src/routes/LoginHistory/LoginHistory");
 const Address = require("./src/routes/AddressRoute");
 const Customer = require("./src/routes/Customer/Customer");
 const Handlecash = require("./src/routes/HandlecashRoute");
+const Cart = require("./src/routes/Cart/Cart");
 
 envVariables.config()
 
@@ -98,3 +99,6 @@ app.use(Loginhistory)
 app.use(Customer)
 
 app.use(Handlecash)
+
+//cart
+app.use(Cart);
