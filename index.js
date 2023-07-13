@@ -28,6 +28,7 @@ const Customer = require("./src/routes/Customer/Customer");
 const Handlecash = require("./src/routes/HandlecashRoute");
 const Cart = require("./src/routes/Cart/Cart");
 const DeliveryRegis = require("./src/routes/DeliveryRegisteration");
+const StartDuty = require("./src/routes/StartDutyRoute");
 
 envVariables.config()
 
@@ -103,8 +104,12 @@ app.use(Handlecash)
 
 //cart
 app.use(Cart);
+
 //Handlecash
 app.use(Handlecash)
 
 //DeliveryRegis
 app.use(DeliveryRegis)
+
+//startDuty
+app.use(StartDuty)
