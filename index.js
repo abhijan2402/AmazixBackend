@@ -45,6 +45,11 @@ httpServer.listen(port, () => {
   client.connect()
 });
 
+
+app.get("/", (req, res) => {
+  console.log("hi");
+});
+
 app.use(seller)
 //Coupen
 app.use(Coupen);
