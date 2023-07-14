@@ -46,7 +46,7 @@ httpServer.listen(port, () => {
 });
 
 
-app.get("/", (req, res) => {
+app.use("/", (req, res) => {
   console.log("hi");
   res.send({ message: "Hii" })
 });
