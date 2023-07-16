@@ -2,7 +2,7 @@ const express=require('express');
 const addNewOrder=express.Router();
 const client=require("../../database");
 const {v4 : uuidv4} = require('uuid');
-addNewOrder.post("/addOrder",(req,res)=>{
+addNewOrder.post("/order/add",(req,res)=>{
     const {
         storeID,
         customerID,

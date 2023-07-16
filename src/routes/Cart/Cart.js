@@ -54,5 +54,16 @@ Cart.delete("/Cart/delete",(req,res)=>{
         }
     })
 })
+Cart.delete("/Cart/delete/customerId",(req,res)=>{
+    const {id}=req.body;
+    client.query(`DELETE FROM Cart WHERE customentid='${id}'`, (err, data) => {
+        if(!err){
+            res.status(200).send({data:"Data Deleted"})
+        }
+        else{
+            res.status(401).send({data:err})
+        }
+    })
+})
 
 module.exports=Cart;
