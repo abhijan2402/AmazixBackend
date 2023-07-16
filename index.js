@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const { createServer } = require("http");
-const client = require("./src/database");
 const Coupen = require("./src/routes/coupenRoute");
 const getAllChats = require("./src/routes/chat/getChats");
 const getOrders = require("./src/routes/orders/getOrders");
@@ -29,6 +28,7 @@ const Handlecash = require("./src/routes/HandlecashRoute");
 const Cart = require("./src/routes/Cart/Cart");
 const DeliveryRegis = require("./src/routes/DeliveryRegisteration");
 const StartDuty = require("./src/routes/StartDutyRoute");
+const connectDB = require("./src/database");
 
 envVariables.config()
 
@@ -41,8 +41,8 @@ app.use(express.urlencoded({
 
 
 httpServer.listen(port, () => {
-  console.log(`Server started at ${port}`)
-  client.connect()
+  console.log(`Server started at ${port}`);
+  connectDB()
 });
 
 
