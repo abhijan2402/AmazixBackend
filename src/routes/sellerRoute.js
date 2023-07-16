@@ -14,11 +14,13 @@ seller.post("/seller", (req, res) => {
     } = req.body;
     const arrayData = [...storeid];
 
-    client.query("INSERT INTO sellers (id, name,email,fcmToken,phone,storeid,profileStatus) VALUES ($1, $2 ,$3, $4 ,$5,$6,$7)", [uid, name, email, fcmToken, phone, arrayData,profileStatus], (err, data) => {
+    client.query("INSERT INTO sellers (id, name,email,fcmToken,phone,profileStatus,storeid) VALUES ($1, $2 ,$3, $4 ,$5,$6,$7)", [uid, name, email, fcmToken, phone,profileStatus,storeid], (err, data) => {
         if (err) {
+            console.log(err);
             res.send({ data: err, message: "Problem" })
         }
         else {
+            console.log(data);
             res.send({ data: '', message: "You data is inserted" })
         }
     })

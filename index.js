@@ -46,11 +46,6 @@ httpServer.listen(port, () => {
 });
 
 
-app.use("/", (req, res) => {
-  console.log("hi");
-  res.send({ message: "Hii" })
-});
-
 app.use(seller)
 //Coupen
 app.use(Coupen);
