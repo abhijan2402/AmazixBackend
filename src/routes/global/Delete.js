@@ -1,6 +1,6 @@
 const express = require('express');
+const { client } = require('../../database');
 const DeleteTableData = express.Router();
-const client = require('../../database');
 
 
 DeleteTableData.delete("/delete", (req, res) => {

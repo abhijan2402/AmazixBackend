@@ -1,6 +1,6 @@
 const express=require('express');
 const getOrders=express.Router();
-const client=require("../../database");
+const { client } = require('../../database');
 
 getOrders.get("/order/get",(req,res)=>{
     client.query(`SELECT * FROM orders`, (err, data) => {

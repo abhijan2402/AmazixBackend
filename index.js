@@ -28,7 +28,7 @@ const Handlecash = require("./src/routes/HandlecashRoute");
 const Cart = require("./src/routes/Cart/Cart");
 const DeliveryRegis = require("./src/routes/DeliveryRegisteration");
 const StartDuty = require("./src/routes/StartDutyRoute");
-const connectDB = require("./src/database");
+const { connectDB } = require("./src/database");
 
 envVariables.config()
 

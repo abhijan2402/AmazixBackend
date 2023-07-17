@@ -1,6 +1,6 @@
 const express=require('express');
 const addNewOrder=express.Router();
-const client=require("../../database");
+const { client } = require('../../database');
 const {v4 : uuidv4} = require('uuid');
 addNewOrder.post("/order/add",(req,res)=>{
     const {

@@ -1,6 +1,6 @@
 const express = require('express');
+const { client } = require('../database');
 const seller = express.Router();
-const client = require('../database');
 
 seller.post("/seller", (req, res) => {
     const {

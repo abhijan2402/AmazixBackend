@@ -1,8 +1,9 @@
 const express=require('express');
 const store=express.Router();
-const client=require("../../database");
 
 const {v4 : uuidv4} = require('uuid');
+const { client } = require('../../database');
+
 store.post("/store/add",(req,res)=>{
     const { ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl }=req.body;
     const text = `

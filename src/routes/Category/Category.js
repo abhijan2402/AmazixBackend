@@ -1,6 +1,6 @@
 const express=require('express');
 const category=express.Router();
-const client=require("../../database");
+const { client } = require('../../database');
 
 const {v4 : uuidv4} = require('uuid');
 category.post("/category/add",(req,res)=>{

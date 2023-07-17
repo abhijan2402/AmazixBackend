@@ -1,6 +1,6 @@
 const express=require('express');
 const deleteOrder=express.Router();
-const client=require("../../database");
+const { client } = require('../../database');
 
 deleteOrder.delete("/deleteChat",(req,res)=>{
     const {id}=req.body;

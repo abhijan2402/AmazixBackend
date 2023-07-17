@@ -1,6 +1,6 @@
 const express=require('express');
 const addNewChat=express.Router();
-const client=require("../../database");
+const { client } = require('../../database');
 const {v4 : uuidv4} = require('uuid');
 addNewChat.post("/addNewChat",(req,res)=>{
     const { chatUsers }=req.body;

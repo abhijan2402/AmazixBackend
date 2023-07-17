@@ -1,6 +1,6 @@
 const express=require('express');
 const product=express.Router();
-const client=require("../../database");
+const { client } = require('../../database');
 
 const {v4 : uuidv4} = require('uuid');
 product.post("/product/add",(req,res)=>{

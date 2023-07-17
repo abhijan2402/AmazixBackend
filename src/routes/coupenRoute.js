@@ -1,7 +1,7 @@
 const express = require('express');
 const Coupen = express.Router();
-const client = require('../database');
 const { v4: uuidv4 } = require('uuid');
+const { client } = require('../database');
 
 Coupen.post("/coupen/perCoupen", (req, res) => {
     client.query("INSERT INTO percoupon (id, discountAmount,minOrderAmount,usesPerCustomer,startDate,endDate,validPaymentType,CouponCode,isActive,storeId) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7, $8, $9, $10)", [uuidv4(), req.body.discountAmount, req.body.minOrderAmount, req.body.usesPerCustomer, req.body.startDate, req.body.endDate, req.body.validPaymentType, req.body.CouponCode, req.body.isActive, req.body.storeId,], (err, data) => {

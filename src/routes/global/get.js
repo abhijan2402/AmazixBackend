@@ -1,5 +1,5 @@
 const express = require('express');
-const client = require('../../database');
+const { client } = require('../../database');
 const getTableData = express.Router();
 
 

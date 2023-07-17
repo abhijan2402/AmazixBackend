@@ -1,7 +1,7 @@
 const express = require('express');
 const Feedback = express.Router();
-const client = require('../database');
 const { v4: uuidv4 } = require('uuid');
+const { client } = require('../database');
 
 Feedback.post("/feedback", (req, res) => {
     console.log(req.body)

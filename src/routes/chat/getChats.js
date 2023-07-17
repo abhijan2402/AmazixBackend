@@ -1,6 +1,6 @@
 const express=require('express');
 const getAllChats=express.Router();
-const client=require("../../database");
+const { client } = require('../../database');
 
 getAllChats.post("/getCharListById",(req,res)=>{
     const {id}=req.body;

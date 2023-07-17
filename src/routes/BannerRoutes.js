@@ -1,7 +1,7 @@
 const express = require('express');
 const Banner = express.Router();
-const client = require('../database');
 const { v4: uuidv4 } = require('uuid');
+const { client } = require('../database');
 
 
 Banner.post("/Banner", (req, res) => {

@@ -1,6 +1,6 @@
 const express=require('express');
 const Cart=express.Router();
-const client=require("../../database");
+const { client } = require('../../database');
 
 const {v4 : uuidv4} = require('uuid');
 Cart.post("/Cart/add",(req,res)=>{
