@@ -9,7 +9,6 @@ searchRoute.post("/search/product", (req, res) => {
     let finalQuery = `SELECT * FROM product WHERE $1 = ANY(tags)`
     client.query(finalQuery,[searchValue], (err, data) => {
         if (err) {
-            console.log(err);
             res.send({ data: err })
         }
         else {
