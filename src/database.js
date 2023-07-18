@@ -1,7 +1,7 @@
 const { Client } = require('pg');
 require('dotenv').config();
 const client = new Client({
-    user: 'amezixDB',
+    user: process.env.USER,
     password: process.env.PASSWORD,
     host: process.env.CONNECTIONSTRING,
     database: process.env.DBNANME,

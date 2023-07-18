@@ -1,3 +1,6 @@
+const envVariables = require('dotenv');
+envVariables.config()
+
 const express = require("express");
 const app = express();
 const { createServer } = require("http");
@@ -13,7 +16,7 @@ const Feedback = require("./src/routes/FeedBackRoute");
 const Wallet = require("./src/routes/walletRoute");
 const Notification = require("./src/routes/NotificationRoute");
 const port = process.env.PORT || 3000
-const envVariables = require('dotenv');
+
 const category = require("./src/routes/Category/Category");
 const product = require("./src/routes/Product/Product");
 const updateDataInTable = require("./src/routes/global/Update");
@@ -30,7 +33,7 @@ const DeliveryRegis = require("./src/routes/DeliveryRegisteration");
 const StartDuty = require("./src/routes/StartDutyRoute");
 const { connectDB } = require("./src/database");
 
-envVariables.config()
+
 
 const httpServer = createServer(app);
 
