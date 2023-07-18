@@ -4,16 +4,34 @@ const searchRoute = express.Router();
 
 
 searchRoute.post("/search/product", (req, res) => {
-    const { tag } = req.body;
-    let searchValue=tag;
-    let finalQuery = `SELECT * FROM product WHERE $1 = ANY(tags)`
-    client.query(finalQuery,[searchValue], (err, data) => {
-        if (err) {
-            res.send({ data: err })
-        }
-        else {
-            res.send({ data: data.rows, message: "Your Data is here" })
-        }
+    const { tag,storeId } = req.body;
+    const searchString = tag;
+    const query = {
+        text: 'SELECT * FROM product WHERE tags::text ILIKE ANY($1) and storeid=$2',
+        values: [['%' + searchString + '%'],storeId],
+    };
+
+    client.query(query)
+    .then((data) => {
+        res.send({ data: data.rows })
+    })
+    .catch((error) => {
+        res.send({ data: error })
+    })
+})
+
+searchRoute.post("/search/store", (req, res) => {
+    const { storename } = req.body;
+    const query = {
+        text: 'SELECT * FROM storedetail WHERE shopname ILIKE $1',
+        values: [`%${storename}%`],
+    };
+    client.query(query)
+    .then((data) => {
+        res.send({ data: data.rows })
+    })
+    .catch((error) => {
+        res.send({ data: error })
     })
 })
 
