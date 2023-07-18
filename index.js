@@ -32,6 +32,7 @@ const Cart = require("./src/routes/Cart/Cart");
 const DeliveryRegis = require("./src/routes/DeliveryRegisteration");
 const StartDuty = require("./src/routes/StartDutyRoute");
 const { connectDB } = require("./src/database");
+const searchRoute = require('./src/routes/SearchFilter/Search');
 
 
 
@@ -117,3 +118,6 @@ app.use(DeliveryRegis)
 
 //startDuty
 app.use(StartDuty)
+
+//search and filter
+app.use(searchRoute);
