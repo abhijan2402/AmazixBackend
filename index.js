@@ -11,7 +11,6 @@ const deleteChats = require("./src/routes/chat/delete");
 const deleteOrder = require("./src/routes/orders/delete");
 const addNewOrder = require("./src/routes/orders/create");
 const addNewChat = require("./src/routes/chat/create");
-const seller = require("./src/routes/sellerroute");
 const Feedback = require("./src/routes/FeedBackRoute");
 const Wallet = require("./src/routes/walletRoute");
 const Notification = require("./src/routes/NotificationRoute");
@@ -33,6 +32,7 @@ const DeliveryRegis = require("./src/routes/DeliveryRegisteration");
 const StartDuty = require("./src/routes/StartDutyRoute");
 const { connectDB } = require("./src/database");
 const searchRoute = require('./src/routes/SearchFilter/Search');
+const seller = require('./src/routes/sellerroute');
 
 
 

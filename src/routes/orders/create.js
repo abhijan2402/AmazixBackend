@@ -17,15 +17,36 @@ addNewOrder.post("/order/add",(req,res)=>{
         shopName,
         paymentStatus,
         paymentType,
-        items
+        items,
+        customerbehaviour,
+        customerlocation,
+        customercontact,
+        customerlandmark,
+        otp
     }=req.body;
     const arrayData = [...items];
     const text = `
         INSERT INTO 
-        orders(id,storeid,customerid,orderdate,returndate,customeraddress,orderstatus,totalamount,totalitems,orderby,storeaddress,shopname,paymentstatus,paymenttype,items) 
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) RETURNING *
+        orders(id,storeid,customerid,orderdate,returndate,customeraddress,orderstatus,totalamount,totalitems,orderby,storeaddress,shopname,paymentstatus,paymenttype,items,customerbehaviour,customerlocation,customercontact,customerlandmark,otp) 
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING *
     `;
-    client.query(text,[uuidv4(),storeID,customerID,orderDate,returnDate,customerAddress,orderStatus,totalAmount,totalItems,orderby,storeAddress,shopName,paymentStatus,paymentType,arrayData],(err, data) => {
+    client.query(text,[uuidv4(),storeID,customerID,orderDate,returnDate,customerAddress,orderStatus,totalAmount,totalItems,orderby,storeAddress,shopName,paymentStatus,paymentType,arrayData,customerbehaviour,customerlocation,customercontact,customerlandmark,otp],(err, data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(data.rows[0])
+        }
+    })
+});
+
+addNewOrder.post('/order/exchange_return/add',(req,res)=>{
+    const { imageUrl,storeId,customerid,orderid,statustype,reason,response }=req.body;
+    const text = `
+        INSERT INTO 
+        OrderreturnExcange(id,imageUrl,storeId,customerid,orderid,statustype,reason,response) 
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *
+    `;
+    client.query(text,[uuidv4(),imageUrl,storeId,customerid,orderid,statustype,reason,response],(err, data) => {
         if (err) {
             res.send(err);
         } else {
