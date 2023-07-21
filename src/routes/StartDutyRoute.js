@@ -5,7 +5,7 @@ const { client } = require('../database');
 
 
 StartDuty.post("/StartDuty", (req, res) => {
-    client.query("INSERT INTO StartDuty (id, logintime,deliveryboyid,deliveryboyselfie) VALUES ($1, $2 ,$3, $4 )", [uuidv4(), req.body.logintime, req.body.deliveryboyid, req.body.deliveryboyselfie], (err, data) => {
+    client.query("INSERT INTO StartDuty (id, logintime,deliveryboyid,deliveryboyselfie,logouttime) VALUES ($1, $2 ,$3, $4,$5 )", [req.body.id, req.body.logintime, req.body.deliveryboyid, req.body.deliveryboyselfie, req.body.logouttime], (err, data) => {
         if (err) {
             res.send({ data: err, message: "Problem" })
         }
