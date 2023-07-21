@@ -22,15 +22,17 @@ addNewOrder.post("/order/add",(req,res)=>{
         customerlocation,
         customercontact,
         customerlandmark,
-        otp
+        otp,
+        expectedDeliveryTime,
+        expectedDistance
     }=req.body;
     const arrayData = [...items];
     const text = `
         INSERT INTO 
-        orders(id,storeid,customerid,orderdate,returndate,customeraddress,orderstatus,totalamount,totalitems,orderby,storeaddress,shopname,paymentstatus,paymenttype,items,customerbehaviour,customerlocation,customercontact,customerlandmark,otp) 
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING *
+        orders(id,storeid,customerid,orderdate,returndate,customeraddress,orderstatus,totalamount,totalitems,orderby,storeaddress,shopname,paymentstatus,paymenttype,items,customerbehaviour,customerlocation,customercontact,customerlandmark,otp,expectedDeliveryTime,expectedDistance) 
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22) RETURNING *
     `;
-    client.query(text,[uuidv4(),storeID,customerID,orderDate,returnDate,customerAddress,orderStatus,totalAmount,totalItems,orderby,storeAddress,shopName,paymentStatus,paymentType,arrayData,customerbehaviour,customerlocation,customercontact,customerlandmark,otp],(err, data) => {
+    client.query(text,[uuidv4(),storeID,customerID,orderDate,returnDate,customerAddress,orderStatus,totalAmount,totalItems,orderby,storeAddress,shopName,paymentStatus,paymentType,arrayData,customerbehaviour,customerlocation,customercontact,customerlandmark,otp,expectedDeliveryTime,expectedDistance],(err, data) => {
         if (err) {
             res.send(err);
         } else {
