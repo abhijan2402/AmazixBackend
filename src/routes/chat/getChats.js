@@ -14,13 +14,14 @@ getAllChats.post("/getCharListById",(req,res)=>{
     })
 });
 
-getAllChats.post("/getAllChatMessages",(req,res)=>{
+getAllChats.post("/chat/get/id",(req,res)=>{
     const {id}=req.body;
-    client.query(`SELECT * FROM chatmessage where chatroomid='${id}'`, (err, data) => {
+    client.query(`SELECT * FROM chatmessage where chatroomid='${id}' order by messagedate desc`, (err, data) => {
         if(!err){
             res.status(200).send(data.rows)
         }
         else{
+            console.log(err);
             res.status(401).send(err)
         }
     })

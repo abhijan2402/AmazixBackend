@@ -23,6 +23,7 @@ updateDataInTable.post("/update", (req, res) => {
     let finalQuery = `UPDATE ${tablename} SET ${queryStringUpdateFields} WHERE id = '${id}'`
     client.query(finalQuery, (err, data) => {
         if (err) {
+            console.log(err);
             res.send({ data: err })
         }
         else {
