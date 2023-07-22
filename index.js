@@ -33,6 +33,7 @@ const StartDuty = require("./src/routes/StartDutyRoute");
 const { connectDB } = require("./src/database");
 const searchRoute = require('./src/routes/SearchFilter/Search');
 const seller = require('./src/routes/sellerroute');
+const wishlistRoute = require('./src/routes/wishlist/Wishlist');
 
 
 
@@ -121,3 +122,6 @@ app.use(StartDuty)
 
 //search and filter
 app.use(searchRoute);
+
+//wishlist
+app.use(wishlistRoute);
