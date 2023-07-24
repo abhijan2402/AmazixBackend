@@ -8,10 +8,10 @@ Customer.post("/Customer/add",(req,res)=>{
     const { id,name,email,phone,address,city,state,profilestatus}=req.body;
     const text = `
         INSERT INTO 
-        Customer(id,name,email,phone,address,city,state,profilestatus) 
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *
+        Customer(id,name,email,phone,address,city,state,profilestatus,followings,wishtlist) 
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *
     `;
-    client.query(text,[id,name,email,phone,address,city,state,profilestatus],(err, data) => {
+    client.query(text,[id,name,email,phone,address,city,state,profilestatus,[],[]],(err, data) => {
         if (err) {
             res.send({data:err});
         } else {
@@ -22,6 +22,7 @@ Customer.post("/Customer/add",(req,res)=>{
 
 Customer.post("/Customer/get/id",(req,res)=>{
     const {id}=req.body;
+
     const text = `Select * from customer where id='${id}'`;
     client.query(text,(err, data) => {
         if (err) {
@@ -43,5 +44,20 @@ Customer.delete("/Customer/delete",(req,res)=>{
         }
     })
 })
+Customer.put("/Customer/update",(req,res)=>{
+    const {id,arrayList,field}=req.body;
+    const query = `UPDATE Customer SET ${field} = $1 WHERE id = '${id}'`;
+    client.query(query, [arrayList], (err, data) => {
+        if(!err){
+            res.status(200).send({data:"Data upated"})
+        }
+        else{
+            console.log(err);
+            res.status(401).send({data:err})
+        }
+    })
+})
+
+
 
 module.exports=Customer;
