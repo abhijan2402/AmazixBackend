@@ -4,6 +4,9 @@ envVariables.config()
 const express = require("express");
 const app = express();
 const { createServer } = require("http");
+const port = process.env.PORT || 3000
+const { connectDB } = require("./src/database");
+
 const Coupen = require("./src/routes/coupenRoute");
 const getAllChats = require("./src/routes/chat/getChats");
 const getOrders = require("./src/routes/orders/getOrders");
@@ -14,7 +17,6 @@ const addNewChat = require("./src/routes/chat/create");
 const Feedback = require("./src/routes/FeedBackRoute");
 const Wallet = require("./src/routes/walletRoute");
 const Notification = require("./src/routes/NotificationRoute");
-const port = process.env.PORT || 3000
 
 const category = require("./src/routes/Category/Category");
 const product = require("./src/routes/Product/Product");
@@ -30,7 +32,6 @@ const Handlecash = require("./src/routes/HandlecashRoute");
 const Cart = require("./src/routes/Cart/Cart");
 const DeliveryRegis = require("./src/routes/DeliveryRegisteration");
 const StartDuty = require("./src/routes/StartDutyRoute");
-const { connectDB } = require("./src/database");
 const searchRoute = require('./src/routes/SearchFilter/Search');
 const seller = require('./src/routes/sellerroute');
 const wishlistRoute = require('./src/routes/wishlist/Wishlist');
