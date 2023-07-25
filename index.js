@@ -19,6 +19,7 @@ app.use(express.urlencoded({
 
 httpServer.listen(port, () => {
   console.log(`Server started at ${port}`);
+  connectDB()
 });
 
 app.get('/',(req,res)=>{
