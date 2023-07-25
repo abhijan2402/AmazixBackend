@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 const { createServer } = require("http");
 const port = process.env.PORT || 3000
-const { connectDB } = require("./src/database");
+const { connectDB,client } = require("./src/database");
 
 
 
