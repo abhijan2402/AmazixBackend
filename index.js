@@ -7,6 +7,7 @@ const { createServer } = require("http");
 const port = process.env.PORT || 3000
 const { connectDB } = require("./src/database");
 
+const seller = require('./src/routes/sellerroute');
 const Coupen = require("./src/routes/coupenRoute");
 const getAllChats = require("./src/routes/chat/getChats");
 const getOrders = require("./src/routes/orders/getOrders");
@@ -32,7 +33,6 @@ const Cart = require("./src/routes/Cart/Cart");
 const DeliveryRegis = require("./src/routes/DeliveryRegisteration");
 const StartDuty = require("./src/routes/StartDutyRoute");
 const searchRoute = require('./src/routes/SearchFilter/Search');
-const seller = require('./src/routes/sellerroute');
 const wishlistRoute = require('./src/routes/wishlist/Wishlist');
 
 
