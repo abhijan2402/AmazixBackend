@@ -24,6 +24,9 @@ httpServer.listen(port, () => {
 });
 
 
+app.get('/',(req,res)=>{
+  res.send("BI")
+})
 app.get("/store/get",(req,res)=>{
   client.query(`Select * FROM storedetail`, (err, data) => {
       if(!err){
