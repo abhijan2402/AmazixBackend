@@ -21,7 +21,7 @@ store.post("/store/add",(req,res)=>{
     })
 });
 
-store.get("/store/get/id",(req,res)=>{
+store.post("/store/get/id",(req,res)=>{
     const {id}=req.body;
     const text = `Select * from storedetail WHERE id='${id}'`;
     client.query(text,(err, data) => {
@@ -55,4 +55,17 @@ store.get("/store/get",(req,res)=>{
         }
     })
 })
+store.post("/store/get/ordercount",(req,res)=>{
+    const {id}=req.body;
+    client.query(`SELECT COUNT(*) FROM orders where storeid='${id}'`, (err, data) => {
+        if(!err){
+            res.status(200).send({data:data.rows[0].count})
+        }
+        else{
+            console.log(err);
+            res.status(401).send({data:err})
+        }
+    })
+})
+
 module.exports=store;
