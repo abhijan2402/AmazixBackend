@@ -132,15 +132,15 @@ app.delete("/category/delete",(req,res)=>{
 
 
 //////////   Chat Route     /////////////
-app.post("/chat",(req,res)=>{
-  const { chatUsers }=req.body;
-  const arrayData = [...chatUsers];
+app.post("/chatlist/add",(req,res)=>{
+  const { chatroomid,usernames,image }=req.body;
+  const arrayData = [...usernames];
   const text = `
       INSERT INTO 
-      chatlist(charroomid,chatusers) 
-      VALUES ($1,$2) RETURNING *
+      chatlist(id,chatroomid,usernames,image) 
+      VALUES ($1,$2,$3,$4) RETURNING *
   `;
-  client.query(text,[uuidv4(),arrayData],(err, data) => {
+  client.query(text,[uuidv4(),chatroomid,arrayData,image],(err, data) => {
       if (err) {
           res.send(err);
       } else {
@@ -167,7 +167,7 @@ app.post("/chat/message/add",(req,res)=>{
 
 app.delete("/deleteChat",(req,res)=>{
   const {id}=req.body;
-  client.query(`DELETE FROM chatlist WHERE charroomid='${id}'`, (err, data) => {
+  client.query(`DELETE FROM chatlist WHERE id='${id}'`, (err, data) => {
       if(!err){
           res.status(200).send("Data Deleted")
       }
@@ -192,15 +192,23 @@ app.delete("/deleteChatMessages",(req,res)=>{
 })
 
 app.post("/getCharListById",(req,res)=>{
-  const {id}=req.body;
-  client.query(`SELECT * FROM chatlist where charroomid='${id}'`, (err, data) => {
-      if(!err){
-          res.status(200).send(data.rows)
-      }
-      else{
-          res.status(401).send(err)
-      }
-  })
+  const { userid,username } = req.body;
+    const query = {
+        text: 'SELECT * FROM chatlist WHERE chatroomid LIKE $1',
+        values: [`%${userid}%`],
+    };
+    // const query = {
+    //     text: 'SELECT * FROM chatlist WHERE usernames::text ILIKE ANY($1) and chatroomid=$2',
+    //     values: [['%' + username + '%'],[`%${userid}%`]],
+    // };
+    client.query(query)
+    .then((data) => {
+        res.send({ data: data.rows })
+    })
+    .catch((error) => {
+        console.log(error);
+        res.send({ data: error })
+    })
 });
 
 app.post("/chat/get/id",(req,res)=>{
