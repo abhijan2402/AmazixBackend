@@ -2,10 +2,10 @@ const { Client } = require('pg');
 require('dotenv').config();
 
 const client = new Client({
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DBNAME,
-    host: process.env.CONNECTIONSTRING,
+    user: "amezixDB",
+    password: "Amezix2020",
+    database: "amezix",
+    host: "database-2.caaxplixixp3.ap-south-1.rds.amazonaws.com",
     port: 5432,
 });
 
