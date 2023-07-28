@@ -225,7 +225,7 @@ app.post("/chat/get/id",(req,res)=>{
 })
 
 
-//////////   Chat Route     /////////////
+//////////   Customer Route     /////////////
 app.post("/Customer/add",(req,res)=>{
   const { id,name,email,phone,address,city,state,profilestatus,location}=req.body;
   const text = `
@@ -638,16 +638,28 @@ app.get("/store/get",(req,res)=>{
   })
 })
 app.post("/store/get/ordercount",(req,res)=>{
-  const {id}=req.body;
-  client.query(`SELECT COUNT(*) FROM orders where storeid='${id}'`, (err, data) => {
-      if(!err){
-          res.status(200).send({data:data.rows[0].count})
-      }
-      else{
-          console.log(err);
-          res.status(401).send({data:err})
-      }
-  })
+    const {id}=req.body;
+    client.query(`SELECT COUNT(*) FROM orders where storeid='${id}'`, (err, data) => {
+        if(!err){
+            res.status(200).send({data:data.rows[0].count})
+        }
+        else{
+            console.log(err);
+            res.status(401).send({data:err})
+        }
+    })
+});
+app.post("/store/get/totalSales",(req,res)=>{
+    const {id}=req.body;
+    client.query(`SELECT SUM(totalamount) AS total_sum FROM orders where storeid='${id}'`, (err, data) => {
+        if(!err){
+          res.status(200).send({data:data.rows[0].total_sum})
+        }
+        else{
+            console.log(err);
+            res.status(401).send({data:err})
+        }
+    })
 });
 
 
