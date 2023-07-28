@@ -1,6 +1,6 @@
 const { Client } = require('pg');
 require('dotenv').config();
-console.log(process.env.USER)
+console.log(process.env.USERNAMEDB)
 console.log(process.env.PASSWORD)
 console.log(process.env.DBNAME)
 console.log(process.env.CONNECTIONSTRING)
@@ -13,14 +13,14 @@ const client = new Client({
 });
 
 async function connectDB(){
-    try {
-        client.connect(function(err) {
-            if (err) throw err;
-            console.log("Connected!");
-        });        
-    } catch (error) {
-        console.log(error,"Error");
-    }
+    // try {
+    //     client.connect(function(err) {
+    //         if (err) throw err;
+    //         console.log("Connected!");
+    //     });        
+    // } catch (error) {
+    //     console.log(error,"Error");
+    // }
 }
 
 module.exports = {connectDB,client};
