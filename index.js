@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const cors = require('cors');
 const { createServer } = require("http");
-const port = process.env.PORT
+const port = process.env.PORT || 3001
 const { connectDB,client } = require("./database");
 const {v4 : uuidv4} = require('uuid');
 envVariables.config()
