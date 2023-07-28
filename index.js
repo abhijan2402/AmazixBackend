@@ -3,6 +3,7 @@ envVariables.config()
 
 const express = require("express");
 const app = express();
+const cors = require('cors');
 const { createServer } = require("http");
 const port = process.env.PORT || 3000
 const { connectDB,client } = require("./src/database");
@@ -16,7 +17,9 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: false
 }));
-
+app.use(cors({
+    origin: '*'
+}));
 
 httpServer.listen(port, () => {
   console.log(`Server started at ${port}`);
