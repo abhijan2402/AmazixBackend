@@ -192,7 +192,7 @@ app.delete("/deleteChatMessages",(req,res)=>{
 })
 
 app.post("/getCharListById",(req,res)=>{
-  const { userid,username } = req.body;
+  const { userid } = req.body;
     const query = {
         text: 'SELECT * FROM chatlist WHERE chatroomid LIKE $1',
         values: [`%${userid}%`],
