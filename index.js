@@ -227,13 +227,13 @@ app.post("/chat/get/id",(req,res)=>{
 
 //////////   Chat Route     /////////////
 app.post("/Customer/add",(req,res)=>{
-  const { id,name,email,phone,address,city,state,profilestatus}=req.body;
+  const { id,name,email,phone,address,city,state,profilestatus,location}=req.body;
   const text = `
       INSERT INTO 
-      Customer(id,name,email,phone,address,city,state,profilestatus,followings,wishtlist) 
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *
+      Customer(id,name,email,phone,address,city,state,profilestatus,followings,wishtlist,location) 
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *
   `;
-  client.query(text,[id,name,email,phone,address,city,state,profilestatus,[],[]],(err, data) => {
+  client.query(text,[id,name,email,phone,address,city,state,profilestatus,[],[],location],(err, data) => {
       if (err) {
           res.send({data:err});
       } else {
