@@ -1,14 +1,13 @@
 const envVariables = require('dotenv');
-envVariables.config()
 
 const express = require("express");
 const app = express();
 const cors = require('cors');
 const { createServer } = require("http");
 const port = process.env.PORT || 3000
-const { connectDB,client } = require("./src/database");
+const { connectDB,client } = require("./database");
 const {v4 : uuidv4} = require('uuid');
-
+envVariables.config()
 
 
 const httpServer = createServer(app);
