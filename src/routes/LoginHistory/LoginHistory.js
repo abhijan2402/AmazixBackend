@@ -1,7 +1,7 @@
 const express=require('express');
 const Loginhistory=express.Router();
-const { client } = require('../../database');
 const {v4 : uuidv4} = require('uuid');
+const { client } = require('../../../database');
 
 Loginhistory.post("/Loginhistory", (req, res) => {
     client.query("INSERT INTO  loginhistory(id,logintime,deliveryboyid ) VALUES ($1, $2 ,$3)", [uuidv4(), req.body.logintime, req.body.deliveryboyid], (err, data) => {

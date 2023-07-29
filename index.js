@@ -5,6 +5,7 @@ const { createServer } = require("http");
 const port = process.env.PORT || 8001
 const { connectDB,client } = require("./database");
 const {v4 : uuidv4} = require('uuid');
+const Loginhistory = require("./src/routes/LoginHistory/LoginHistory");
 
 
 const httpServer = createServer(app);
@@ -357,30 +358,32 @@ app.post("/update", (req, res) => {
 
 
 //////////   Login History Route     /////////////
-app.post("/Loginhistory", (req, res) => {
-  client.query("INSERT INTO  loginhistory(id,logintime,deliveryboyid ) VALUES ($1, $2 ,$3)", [uuidv4(), req.body.logintime, req.body.deliveryboyid], (err, data) => {
-      if (err) {
-          console.log("hi");
-          res.send({ data: err, message: "Problem" })
-      }
-      else {
-          console.log("hello");
-          res.send({ data: data.rows, message: "You data is inserted" })
-      }
-  })
+// app.post("/Loginhistory", (req, res) => {
+//   client.query("INSERT INTO  loginhistory(id,logintime,deliveryboyid ) VALUES ($1, $2 ,$3)", [uuidv4(), req.body.logintime, req.body.deliveryboyid], (err, data) => {
+//       if (err) {
+//           console.log("hi");
+//           res.send({ data: err, message: "Problem" })
+//       }
+//       else {
+//           console.log("hello");
+//           res.send({ data: data.rows, message: "You data is inserted" })
+//       }
+//   })
  
-});
-app.get("/Loginhistory/get",(req,res)=>{
-  const { deliveryboyid } = req.body;
-  client.query(`SELECT * FROM loginhistory where deliveryboyid='${deliveryboyid}'`, (err, data) => {
-      if (!err) {
-          res.status(200).send(data.rows)
-      }
-      else {
-          res.status(401).send(err)
-      }
-  })
-});
+// });
+// app.get("/Loginhistory/get",(req,res)=>{
+//   const { deliveryboyid } = req.body;
+//   client.query(`SELECT * FROM loginhistory where deliveryboyid='${deliveryboyid}'`, (err, data) => {
+//       if (!err) {
+//           res.status(200).send(data.rows)
+//       }
+//       else {
+//           res.status(401).send(err)
+//       }
+//   })
+// });
+
+app.use(Loginhistory)
 
 
 //////////   Orders Route     /////////////
