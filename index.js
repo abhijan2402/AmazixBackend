@@ -539,6 +539,17 @@ app.post("/product/get/storeid",(req,res)=>{
       }
   })
 });
+app.post("/product/get/storeid/all",(req,res)=>{
+  const {id}=req.body;
+  const text = `Select * from product where storeID='${id}'`;
+  client.query(text,(err, data) => {
+      if (err) {
+          res.send({data:err});
+      } else {
+          res.send({data:data.rows})
+      }
+  })
+});
 
 app.delete("/product/delete",(req,res)=>{
   const {id}=req.body;
