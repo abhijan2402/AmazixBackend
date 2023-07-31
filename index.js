@@ -498,6 +498,26 @@ app.post("/order/deliveryId", (req, res) => {
   })
 });
 
+app.post("/order/delivery/pastweek", (req, res) => {
+    const { id } = req.body;
+    const date = new Date();
+    let finalOrdersArray=[];
+    const dateSevenDaysBefore = date.getDate() - 7;
+    date.setDate(dateSevenDaysBefore)
+    client.query(`SELECT * FROM orders where deliveryboyId='${id}'`, (err, data) => {
+        if (err) {
+            res.status(401).send({ data: err });
+        } else {
+            data.rows.forEach(item=>{
+                if(new Date(item.orderdate).getDate() >= dateSevenDaysBefore){
+                    finalOrdersArray.push(item);
+                }
+            })
+            res.status(200).send({ data: finalOrdersArray.length })
+        }
+    })
+});
+
 
 //////////   Product Route     /////////////
 app.post("/product/add",(req,res)=>{
