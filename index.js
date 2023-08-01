@@ -150,13 +150,13 @@ app.post("/chatlist/add",(req,res)=>{
 });
 
 app.post("/chat/message/add",(req,res)=>{
-  const { roomid,message,messageAt,recieverid,senderid }=req.body;
+  const { roomid,message,messagedate,recieverid,senderid }=req.body;
   const text = `
       INSERT INTO 
       chatmessage(id,chatroomid,message,messagedate,recieverid,senderid) 
       VALUES ($1,$2,$3,$4,$5,$6) RETURNING *
   `;
-  client.query(text,[uuidv4(),roomid,message,messageAt,recieverid,senderid],(err, data) => {
+  client.query(text,[uuidv4(),roomid,message,messagedate,recieverid,senderid],(err, data) => {
       if (err) {
           res.send(err);
       } else {
