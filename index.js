@@ -582,6 +582,17 @@ app.delete("/product/delete",(req,res)=>{
       }
   })
 })
+app.post("/product/store/count",(req,res)=>{
+  const {id}=req.body;
+  client.query(`select count(*) as num from product where storeid='${id}'`, (err, data) => {
+      if(!err){
+          res.status(200).send({data:data.rows[0].num})
+      }
+      else{
+          res.status(401).send({data:err})
+      }
+  })
+})
 
 
 //////////   Search Route     /////////////
