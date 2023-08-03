@@ -709,7 +709,7 @@ app.post("/get/seller/stores",(req,res)=>{
     const {id}=req.body;
     client.query(`select id,shopname from storedetail where sellerid='${id}';`, (err, data) => {
         if(!err){
-          res.status(200).send({data:data.rows[0]})
+          res.status(200).send({data:data.rows})
         }
         else{
             console.log(err);
