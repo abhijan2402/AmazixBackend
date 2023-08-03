@@ -631,14 +631,14 @@ app.post("/search/store", (req, res) => {
 
 //////////   Store Route     /////////////
 app.post("/store/add",(req,res)=>{
-  const { ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl }=req.body;
+  const { ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl,sellerid }=req.body;
   const text = `
       INSERT INTO 
       storedetail( 
-          id,ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl,totalProducts,followers,rating,storevisits,productsview)
-          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17) RETURNING *
+          id,ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl,totalProducts,followers,rating,storevisits,productsview,sellerid)
+          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) RETURNING *
       `;
-  client.query(text,[uuidv4(),ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl,0,0,0,0,0],(err, data) => {
+  client.query(text,[uuidv4(),ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl,0,0,0,0,0,sellerid],(err, data) => {
       if (err) {
           res.send({data:err});
       } else {
@@ -698,6 +698,18 @@ app.post("/store/get/totalSales",(req,res)=>{
     client.query(`SELECT SUM(totalamount) AS total_sum FROM orders where storeid='${id}'`, (err, data) => {
         if(!err){
           res.status(200).send({data:data.rows[0].total_sum})
+        }
+        else{
+            console.log(err);
+            res.status(401).send({data:err})
+        }
+    })
+});
+app.post("/get/seller/stores",(req,res)=>{
+    const {id}=req.body;
+    client.query(`select id,shopname from storedetail where sellerid='${id}';`, (err, data) => {
+        if(!err){
+          res.status(200).send({data:data.rows[0]})
         }
         else{
             console.log(err);
