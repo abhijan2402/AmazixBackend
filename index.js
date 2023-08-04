@@ -897,30 +897,43 @@ app.post("/DeliveryRegis", (req, res) => {
 
 
 //////////   Feedback Route     /////////////
-app.post("/feedback", (req, res) => {
-  console.log(req.body)
-  client.query("INSERT INTO Feedback (id, Fmessage,frating,shopid,orderid) VALUES ($1, $2 ,$3, $4,$5 ) RETURNING *",
-      [uuidv4(), req.body.Fmessage, req.body.frating, req.body.shopid, req.body.orderid,], (err, data) => {
-          if (err) {
-              console.log("hi");
-              res.send({ data: err, message: "Problem" })
-          }
-          else {
-              console.log("hello");
-              res.send({ data: data.rows, message: "You data is inserted" })
-          }
-      })
+app.post("/feedback/add", (req, res) => {
+    const { fmessage ,frating ,shopid ,senderid ,storeownerbehaviour ,deliveryboybehaviour,productqualitybehaviour,ontimedeliverybehaviour,orderid }=req.body;
+    const text = `
+        INSERT INTO 
+        feedback(id,fmessage ,frating ,shopid ,senderid ,storeownerbehaviour ,deliveryboybehaviour,productqualitybehaviour,ontimedeliverybehaviour,orderid) 
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *
+    `;
+    client.query(text,[uuidv4(),fmessage ,frating ,shopid ,senderid ,storeownerbehaviour ,deliveryboybehaviour,productqualitybehaviour,ontimedeliverybehaviour,orderid],(err, data) => {
+        if (err) {
+            console.log(err)
+            res.status(400).send({data:err});
+        } else {
+            res.status(200).send({data:data.rows[0]})
+        }
+    })
 });
 
 
-app.get("/getFeedbackById", (req, res) => {
+app.post("/get/sellerid", (req, res) => {
   const { id } = req.body;
-  client.query(`SELECT * FROM Feedback where id='${id}'`, (err, data) => {
+  client.query(`SELECT * FROM feedback where shopid='${id}'`, (err, data) => {
       if (!err) {
-          res.status(200).send(data.rows)
+        res.status(200).send(data.rows)
       }
       else {
-          res.status(401).send(err)
+        res.status(401).send(err)
+      }
+  })
+})
+app.post("/get/customreid", (req, res) => {
+  const { id } = req.body;
+  client.query(`SELECT * FROM feedback where senderid='${id}'`, (err, data) => {
+      if (!err) {
+        res.status(200).send(data.rows)
+      }
+      else {
+        res.status(401).send(err)
       }
   })
 })
