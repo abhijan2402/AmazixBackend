@@ -627,6 +627,20 @@ app.post("/search/store", (req, res) => {
       res.send({ data: error })
   })
 })
+app.post("/search/store/category", (req, res) => {
+  const { category } = req.body;
+  const query = {
+      text: 'SELECT * FROM storedetail WHERE storecategory ILIKE $1',
+      values: [`%${category}%`],
+  };
+  client.query(query)
+  .then((data) => {
+      res.status(200).send({ data: data.rows })
+  })
+  .catch((error) => {
+      res.status(500).send({ data: error })
+  })
+})
 
 
 //////////   Store Route     /////////////
