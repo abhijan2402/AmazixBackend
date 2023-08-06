@@ -627,6 +627,21 @@ app.post("/search/store", (req, res) => {
       res.send({ data: error })
   })
 })
+app.post("/search/address", (req, res) => {
+  const { id,address } = req.body;
+  const query = {
+      text: 'SELECT * FROM useraddress where userid=$1 and address ILIKE $2',
+      values: [id,'%' + address + '%'],
+  };
+  client.query(query)
+  .then((data) => {
+      res.send({ data: data.rows })
+  })
+  .catch((error) => {
+      res.send({ data: error })
+  })
+})
+
 app.post("/search/store/category", (req, res) => {
   const { category } = req.body;
   const query = {
