@@ -6,6 +6,9 @@ const port = process.env.PORT || 8001
 const { connectDB,client } = require("./database");
 const {v4 : uuidv4} = require('uuid');
 const Loginhistory = require("./src/routes/LoginHistory/LoginHistory");
+const moment = require('moment');
+// const PaytmChecksum = require('./PaytmChecksum');
+
 
 
 const httpServer = createServer(app);
@@ -150,19 +153,20 @@ app.post("/chatlist/add",(req,res)=>{
 });
 
 app.post("/chat/message/add",(req,res)=>{
-  const { roomid,message,messagedate,recieverid,senderid }=req.body;
-  const text = `
-      INSERT INTO 
-      chatmessage(id,chatroomid,message,messagedate,recieverid,senderid) 
-      VALUES ($1,$2,$3,$4,$5,$6) RETURNING *
-  `;
-  client.query(text,[uuidv4(),roomid,message,messagedate,recieverid,senderid],(err, data) => {
-      if (err) {
-          res.send(err);
-      } else {
-          res.send(data.rows[0])
-      }
-  })
+    const currentTimestamp = moment().format('YYYY-MM-DD HH:mm:ss');
+    const { roomid,message,messagedate,recieverid,senderid }=req.body;
+    const text = `
+        INSERT INTO 
+        chatmessage(id,chatroomid,message,messagedate,recieverid,senderid) 
+        VALUES ($1,$2,$3,$4,$5,$6) RETURNING *
+    `;
+    client.query(text,[uuidv4(),roomid,message,currentTimestamp,recieverid,senderid],(err, data) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(data.rows[0])
+        }
+    })
 })
 
 app.delete("/deleteChat",(req,res)=>{
@@ -1151,3 +1155,19 @@ app.delete("/wallet/deleteByid", (req, res) => {
       }
   })
 })
+
+
+//paytm routes
+app.post('/initialize_payment',(req,res)=>{
+    const { amount, orderId } = req.body;
+    const params = {
+        MID: 'HRDxII54533573040978',
+        ORDER_ID: orderId,
+        CUST_ID: 'CUSTOMER_ID',
+        TXN_AMOUNT: amount.toString(),
+        CHANNEL_ID: 'WAP',
+        INDUSTRY_TYPE_ID: 'Retail',
+        WEBSITE: 'WEBSTAGING',
+        CALLBACK_URL: 'YOUR_CALLBACK_URL',
+    };
+});
