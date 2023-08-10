@@ -1,14 +1,24 @@
 const express = require("express");
 const app = express();
 const cors = require('cors');
+const axios = require('axios');
 const { createServer } = require("http");
 const port = process.env.PORT || 8001
 const { connectDB,client } = require("./database");
 const {v4 : uuidv4} = require('uuid');
 const Loginhistory = require("./src/routes/LoginHistory/LoginHistory");
 const moment = require('moment');
-// const PaytmChecksum = require('./PaytmChecksum');
-
+const PaytmChecksum = require('paytmchecksum');
+const https = require('https');
+const paytmConfig = {
+    merchantKey: 'h_IGN2BBLztn7gXC',
+    merchantId: 'HRDxII54533573040978',
+    channelId: 'WAP',
+    website: 'WEBSTAGING',
+    industryType: 'Retail',
+    callbackUrl: 'http://192.168.41.30:8001/paytm_payment_callback',
+    transactionInitUrl: 'https://securegw-stage.paytm.in/theia/api/v1/initiateTransaction',
+};
 
 
 const httpServer = createServer(app);
@@ -1158,16 +1168,67 @@ app.delete("/wallet/deleteByid", (req, res) => {
 
 
 //paytm routes
-app.post('/initialize_payment',(req,res)=>{
-    const { amount, orderId } = req.body;
-    const params = {
-        MID: 'HRDxII54533573040978',
-        ORDER_ID: orderId,
-        CUST_ID: 'CUSTOMER_ID',
-        TXN_AMOUNT: amount.toString(),
-        CHANNEL_ID: 'WAP',
-        INDUSTRY_TYPE_ID: 'Retail',
-        WEBSITE: 'WEBSTAGING',
-        CALLBACK_URL: 'YOUR_CALLBACK_URL',
+app.post('/initialize_payment',async(req,res)=>{
+    const { amount, orderID, customreID } = req.body;
+    var paytmParams = {};
+    paytmParams.body = {
+        "requestType"   : "Payment",
+        "mid"           : paytmConfig.merchantId,
+        "websiteName"   : paytmConfig.website,
+        "orderId"       : orderID,
+        "callbackUrl"   : paytmConfig.callbackUrl,
+        "txnAmount"     : {
+            "value"     : amount,
+            "currency"  : "INR",
+        },
     };
+    PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body), paytmConfig.merchantKey).then(function(checksum){
+        console.log(checksum)
+        paytmParams.head = {
+            "signature"    : checksum
+        };
+    
+        var post_data = JSON.stringify(paytmParams);
+        var options = {
+            hostname: 'securegw-stage.paytm.in',
+            port: 443,
+            path: `/theia/api/v1/initiateTransaction?mid=${paytmConfig.merchantId}&orderId=${orderID}`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': post_data.length
+            },
+        };
+        var response = "";
+        var post_req = https.request(options, function(post_res) {
+            post_res.on('data', function (chunk) {
+                response += chunk;
+            });
+    
+            post_res.on('end', function(){
+                console.log('Response: ', response);
+            });
+        });
+        post_req.write(post_data);
+        post_req.end();
+    })
+});
+
+app.post('/paytm_payment_callback', async (req, res) => {
+    const body = req.body;
+    console.log(body)
+    // const checksum = body.CHECKSUMHASH;
+    // delete body.CHECKSUMHASH;
+  
+    // const isValidChecksum = PaytmChecksum.verifySignature(body, paytmConfig.merchantKey, checksum);
+    // if (!isValidChecksum) {
+    //   return res.status(400).json({ error: 'Invalid checksum' });
+    // }
+  
+    // // Handle the payment response
+    // // You can update your database with the payment status and other details here
+    // console.log('Payment response:', body);
+  
+    // // Send the response back to Paytm
+    // res.json({ status: 'success' });
 });
