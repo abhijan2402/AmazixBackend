@@ -159,6 +159,7 @@ app.post("/chat/message/add", (req, res) => {
         chatmessage(id,chatroomid,message,messagedate,recieverid,senderid) 
         VALUES ($1,$2,$3,$4,$5,$6) RETURNING *
     `;
+    console.log(currentTimestamp)
     client.query(text, [uuidv4(), roomid, message, currentTimestamp, recieverid, senderid], (err, data) => {
         if (err) {
             res.send(err);
@@ -458,12 +459,13 @@ app.delete("/deleteChat", (req, res) => {
     })
 })
 
-app.get("/order/get", (req, res) => {
-    client.query(`SELECT * FROM orders`, (err, data) => {
+app.post("/order/get/id", (req, res) => {
+    const {id}=req.body;
+    client.query(`SELECT * FROM orders where id='${id}'`, (err, data) => {
         if (err) {
             res.status(401).send({ data: err });
         } else {
-            res.status(200).send({ data: data.rows })
+            res.status(200).send({ data: data.rows[0] })
         }
     })
 });
