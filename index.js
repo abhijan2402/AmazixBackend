@@ -222,7 +222,6 @@ app.post("/chat/get/id", (req, res) => {
             res.status(200).send(data.rows)
         }
         else {
-            console.log(err);
             res.status(401).send(err)
         }
     })
@@ -835,11 +834,9 @@ app.post("/Banner", (req, res) => {
 app.post("/coupen/perCoupen", (req, res) => {
     client.query("INSERT INTO percoupon (id, discountAmount,minOrderAmount,usesPerCustomer,startDate,endDate,validPaymentType,CouponCode,isActive,storeId) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7, $8, $9, $10)", [uuidv4(), req.body.discountAmount, req.body.minOrderAmount, req.body.usesPerCustomer, req.body.startDate, req.body.endDate, req.body.validPaymentType, req.body.CouponCode, req.body.isActive, req.body.storeId,], (err, data) => {
         if (err) {
-            console.log("hi");
             res.send({ data: err, message: "Problem" })
         }
         else {
-            console.log("hello");
             res.send({ data: data.rows, message: "You data is inserted" })
         }
     })
@@ -849,11 +846,9 @@ app.post("/coupen/perCoupen", (req, res) => {
 app.post("/coupen/BuyGet", (req, res) => {
     client.query("INSERT INTO buyget (id, buyVal,getVal,minOrderAmount,usesPerCustomer,startDate,endDate,validPaymentType,CouponCode,isActive,storeId) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7, $8, $9, $10,$11)", [uuidv4(), req.body.buyVal, req.body.getVal, req.body.minOrderAmount, req.body.usesPerCustomer, req.body.startDate, req.body.endDate, req.body.validPaymentType, req.body.CouponCode, req.body.isActive, req.body.storeId,], (err, data) => {
         if (err) {
-            console.log("hi");
             res.send({ data: err, message: "Problem" })
         }
         else {
-            console.log("hello");
             res.send({ data: data.rows, message: "You data is inserted" })
         }
     })
@@ -863,11 +858,9 @@ app.post("/coupen/BuyGet", (req, res) => {
 app.post("/coupen/FlatCoupon", (req, res) => {
     client.query("INSERT INTO flatcoupon (id, discountAmount,minOrderAmount,usesPerCustomer,startDate,endDate,validPaymentType,CouponCode,isActive,storeId) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7, $8, $9, $10)", [uuidv4(), req.body.discountAmount, req.body.minOrderAmount, req.body.usesPerCustomer, req.body.startDate, req.body.endDate, req.body.validPaymentType, req.body.CouponCode, req.body.isActive, req.body.storeId,], (err, data) => {
         if (err) {
-            console.log("hi");
             res.send({ data: err, message: "Problem" })
         }
         else {
-            console.log("hello");
             res.send({ data: data.rows, message: "You data is inserted" })
         }
     })
@@ -878,11 +871,9 @@ app.post("/coupen/FlatCoupon", (req, res) => {
 app.delete(`/coupen/perCoupen/:id`, (req, res) => {
     client.query("DELETE FROM PerCoupon WHERE ID = $1", [req.params.id], (err, data) => {
         if (err) {
-            console.log("hi");
             res.send({ data: err, message: "Problem" })
         }
         else {
-            console.log("hello");
             res.send({ data: data.rows, message: "You data is deleted" })
         }
     })
@@ -892,11 +883,9 @@ app.delete(`/coupen/perCoupen/:id`, (req, res) => {
 app.delete(`/coupen/BuyGet/:id`, (req, res) => {
     client.query("DELETE FROM BuyGet WHERE ID = $1", [req.params.id], (err, data) => {
         if (err) {
-            console.log("hi");
             res.send({ data: err, message: "Problem" })
         }
         else {
-            console.log("hello");
             res.send({ data: data.rows, message: "You data is deleted" })
         }
     })
@@ -905,11 +894,9 @@ app.delete(`/coupen/BuyGet/:id`, (req, res) => {
 app.delete(`/coupen/FlatCoupon/:id`, (req, res) => {
     client.query("DELETE FROM FlatCoupon WHERE ID = $1", [req.params.id], (err, data) => {
         if (err) {
-            console.log("hi");
             res.send({ data: err, message: "Problem" })
         }
         else {
-            console.log("hello");
             res.send({ data: data.rows, message: "You data is deleted" })
         }
     })
@@ -991,11 +978,9 @@ app.post("/Handlecash", (req, res) => {
     console.log(req.body)
     client.query("INSERT INTO handlingcash(id,deliveryboyid,walletamount,orderid ) VALUES ($1, $2 ,$3,$4)", [uuidv4(), req.body.deliveryboyid, req.body.walletamount, req.body.orderid], (err, data) => {
         if (err) {
-            console.log("hi");
             res.send({ data: err, message: "Problem" })
         }
         else {
-            console.log("hello");
             res.send({ data: data.rows, message: "You data is inserted" })
         }
     })
@@ -1124,7 +1109,6 @@ app.post("/wallet", (req, res) => {
                 res.status(401).send(err)
             }
             else {
-                console.log("hello");
                 res.status(200).send(data.rows)
             }
         })
@@ -1174,3 +1158,13 @@ app.post("/globalCategory/add", (req, res) => {
         }
     })
 });
+app.get("/category/get/global", (req, res) => {
+    client.query('select * from globalcategory', (err, data) => {
+        if (err) {
+            res.send({ data: err });
+        } else {
+            res.send({ data: data.rows })
+        }
+    })
+});
+
