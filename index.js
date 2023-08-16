@@ -525,13 +525,13 @@ app.post("/order/delivery/pastweek", (req, res) => {
 
 //////////   Product Route     /////////////
 app.post("/product/add", (req, res) => {
-    const { name, categoryName, price, discountedPrice, quantity, produtType, deiails, variants, paymentMode, tags, imageUrls, storeID } = req.body;
+    const { name, categoryName, price, discountedPrice, quantity, produtType, deiails, variants, paymentMode, tags, imageUrls, storeID,country,otherdetails } = req.body;
     const text = `
       INSERT INTO 
-      product(id,name,categoryName,price,discountedPrice,quantity,produtType,deiails,variants,paymentMode,tags,imageUrls,storeID,isActive) 
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING *
+      product(id,name,categoryName,price,discountedPrice,quantity,produtType,deiails,variants,paymentMode,tags,imageUrls,storeID,isActive,country,otherdetails) 
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16) RETURNING *
   `;
-    client.query(text, [uuidv4(), name, categoryName, price, discountedPrice, quantity, [...produtType], deiails, [...variants], [...paymentMode], [...tags], [...imageUrls], storeID, true], (err, data) => {
+    client.query(text, [uuidv4(), name, categoryName, price, discountedPrice, quantity, [...produtType], deiails, [...variants], [...paymentMode], [...tags], [...imageUrls], storeID, true,country,otherdetails], (err, data) => {
         if (err) {
             res.send({ data: err });
         } else {
