@@ -668,10 +668,10 @@ app.post("/store/add", (req, res) => {
     const text = `
       INSERT INTO 
       storedetail( 
-          id,ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl,totalProducts,followers,rating,storevisits,productsview,sellerid)
-          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18) RETURNING *
+          id,ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl,totalProducts,followers,rating,storevisits,productsview,sellerid,isstoreopenclose)
+          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19) RETURNING *
       `;
-    client.query(text, [uuidv4(), ShopName, StoreCategory, GSTNum, StoreAddress, LatitudeCords, LongitudeCords, AccountNumber, IFSECode, BankName, Branch, imageUrl, 0, 0, 0, 0, 0, sellerid], (err, data) => {
+    client.query(text, [uuidv4(), ShopName, StoreCategory, GSTNum, StoreAddress, LatitudeCords, LongitudeCords, AccountNumber, IFSECode, BankName, Branch, imageUrl, 0, 0, 0, 0, 0, sellerid,true], (err, data) => {
         if (err) {
             res.send({ data: err });
         } else {
