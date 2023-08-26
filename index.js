@@ -391,7 +391,7 @@ app.use(Loginhistory)
 
 
 //////////   Orders Route     /////////////
-app.get("/order/add", (req, res) => {
+app.post("/order/add", (req, res) => {
     const {
         storeID,
         customerID,
