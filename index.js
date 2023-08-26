@@ -7,7 +7,8 @@ const { connectDB, client } = require("./database");
 const { v4: uuidv4 } = require('uuid');
 const Loginhistory = require("./src/routes/LoginHistory/LoginHistory");
 const moment = require('moment');
-
+const notificationSendRoute = require("./src/routes/notification/triggerNotification");
+const generateUniqueId = require('generate-unique-id');
 
 
 const httpServer = createServer(app);
@@ -390,7 +391,7 @@ app.use(Loginhistory)
 
 
 //////////   Orders Route     /////////////
-app.post("/order/add", (req, res) => {
+app.get("/order/add", (req, res) => {
     const {
         storeID,
         customerID,
@@ -421,7 +422,11 @@ app.post("/order/add", (req, res) => {
       orders(id,storeid,customerid,orderdate,returndate,customeraddress,orderstatus,totalamount,totalitems,orderby,storeaddress,shopname,paymentstatus,paymenttype,items,deliveryboyid,customerbehaviour,customerlocation,customercontact,customerlandmark,otp,expectedDeliveryTime,expectedDistance) 
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23) RETURNING *
   `;
-    client.query(text, [uuidv4(), storeID, customerID, orderDate, returnDate, customerAddress, orderStatus, totalAmount, totalItems, orderby, storeAddress, shopName, paymentStatus, paymentType, arrayData,deliveryboyid, customerbehaviour, customerlocation, customercontact, customerlandmark, otp, expectedDeliveryTime, expectedDistance], (err, data) => {
+    const orderID = generateUniqueId({
+        length: 16,
+        useLetters: false
+    });
+    client.query(text, [orderID, storeID, customerID, orderDate, returnDate, customerAddress, orderStatus, totalAmount, totalItems, orderby, storeAddress, shopName, paymentStatus, paymentType, arrayData,deliveryboyid, customerbehaviour, customerlocation, customercontact, customerlandmark, otp, expectedDeliveryTime, expectedDistance], (err, data) => {
         if (err) {
             res.send(err);
         } else {
@@ -1185,3 +1190,5 @@ app.post("/storeSpecBanner/add", (req, res) => {
         }
     })
 });   
+
+app.use(notificationSendRoute)
