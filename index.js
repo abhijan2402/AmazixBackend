@@ -136,14 +136,14 @@ app.delete("/category/delete", (req, res) => {
 
 //////////   Chat Route     /////////////
 app.post("/chatlist/add", (req, res) => {
-    const { chatroomid, usernames, image } = req.body;
+    const { chatroomid, usernames, image, productid } = req.body;
     const arrayData = [...usernames];
     const text = `
       INSERT INTO 
-      chatlist(id,chatroomid,usernames,image) 
-      VALUES ($1,$2,$3,$4) RETURNING *
+      chatlist(id,chatroomid,usernames,image,productid) 
+      VALUES ($1,$2,$3,$4,$5) RETURNING *
   `;
-    client.query(text, [uuidv4(), chatroomid, arrayData, image], (err, data) => {
+    client.query(text, [uuidv4(), chatroomid, arrayData, image,productid], (err, data) => {
         if (err) {
             res.send(err);
         } else {
@@ -231,13 +231,13 @@ app.post("/chat/get/id", (req, res) => {
 
 //////////   Customer Route     /////////////
 app.post("/Customer/add", (req, res) => {
-    const { id, name, email, phone, address, city, state, profilestatus, location } = req.body;
+    const { id, name, email, phone, address, city, state, profilestatus, location,fcmtoken } = req.body;
     const text = `
       INSERT INTO 
-      Customer(id,name,email,phone,address,city,state,profilestatus,followings,wishtlist,location) 
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *
+      Customer(id,name,email,phone,address,city,state,profilestatus,followings,wishtlist,location,profileimage,fcmtoken) 
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *
   `;
-    client.query(text, [id, name, email, phone, address, city, state, profilestatus, [], [], location], (err, data) => {
+    client.query(text, [id, name, email, phone, address, city, state, profilestatus, [], [], location,"",fcmtoken], (err, data) => {
         if (err) {
             res.send({ data: err });
         } else {
