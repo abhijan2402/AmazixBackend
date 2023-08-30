@@ -627,9 +627,9 @@ app.post("/search/product", (req, res) => {
 })
 
 app.post("/search/store", (req, res) => {
-    const { storename } = req.body;
+    const { storename,lat,lon } = req.body;
     const query = {
-        text: 'SELECT * FROM storedetail WHERE shopname ILIKE $1',
+        text: `SELECT * FROM storedetail t WHERE shopname ILIKE $1 and ST_DistanceSphere(t.location::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) < 5000`,
         values: [`%${storename}%`],
     };
     client.query(query)
@@ -656,9 +656,9 @@ app.post("/search/address", (req, res) => {
 })
 
 app.post("/search/store/category", (req, res) => {
-    const { category } = req.body;
+    const { category,lat,lon } = req.body;
     const query = {
-        text: 'SELECT * FROM storedetail WHERE storecategory ILIKE $1',
+        text: `SELECT * FROM storedetail t WHERE storecategory ILIKE $1 and ST_DistanceSphere(t.location::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) < 5000`,
         values: [`%${category}%`],
     };
     client.query(query)
