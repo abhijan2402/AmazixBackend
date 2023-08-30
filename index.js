@@ -414,19 +414,22 @@ app.post("/order/add", (req, res) => {
         customerlandmark,
         otp,
         expectedDeliveryTime,
-        expectedDistance
+        expectedDistance,
+        handlingcash,
+        sellerphone,
+        storelocation
     } = req.body;
     const arrayData = [...items];
     const text = `
       INSERT INTO 
-      orders(id,storeid,customerid,orderdate,returndate,customeraddress,orderstatus,totalamount,totalitems,orderby,storeaddress,shopname,paymentstatus,paymenttype,items,deliveryboyid,customerbehaviour,customerlocation,customercontact,customerlandmark,otp,expectedDeliveryTime,expectedDistance) 
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23) RETURNING *
+      orders(id,storeid,customerid,orderdate,returndate,customeraddress,orderstatus,totalamount,totalitems,orderby,storeaddress,shopname,paymentstatus,paymenttype,items,deliveryboyid,customerbehaviour,customerlocation,customercontact,customerlandmark,otp,expectedDeliveryTime,expectedDistance,handlingcash,sellerphone,storelocation) 
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26) RETURNING *
   `;
     const orderID = generateUniqueId({
         length: 16,
         useLetters: false
     });
-    client.query(text, [orderID, storeID, customerID, orderDate, returnDate, customerAddress, orderStatus, totalAmount, totalItems, orderby, storeAddress, shopName, paymentStatus, paymentType, arrayData,deliveryboyid, customerbehaviour, customerlocation, customercontact, customerlandmark, otp, expectedDeliveryTime, expectedDistance], (err, data) => {
+    client.query(text, [orderID, storeID, customerID, orderDate, returnDate, customerAddress, orderStatus, totalAmount, totalItems, orderby, storeAddress, shopName, paymentStatus, paymentType, arrayData,deliveryboyid, customerbehaviour, customerlocation, customercontact, customerlandmark, otp, expectedDeliveryTime, expectedDistance,handlingcash,sellerphone,storelocation], (err, data) => {
         if (err) {
             res.send(err);
         } else {
