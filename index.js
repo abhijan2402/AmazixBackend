@@ -677,8 +677,8 @@ app.post("/store/add", (req, res) => {
     const text = `
       INSERT INTO 
       storedetail( 
-          id,ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl,totalProducts,followers,rating,storevisits,productsview,sellerid,isstoreopenclose)
-          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19) RETURNING *
+          id,ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl,totalProducts,followers,rating,storevisits,productsview,sellerid,isstoreopenclose,location)
+          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,ST_SetSRID(ST_MakePoint(${parseFloat(LatitudeCords)},${parseFloat(LongitudeCords)}), 4326)) RETURNING *
       `;
     client.query(text, [uuidv4(), ShopName, StoreCategory, GSTNum, StoreAddress, LatitudeCords, LongitudeCords, AccountNumber, IFSECode, BankName, Branch, imageUrl, 0, 0, 0, 0, 0, sellerid,true], (err, data) => {
         if (err) {
@@ -713,8 +713,15 @@ app.delete("/store/delete", (req, res) => {
     })
 })
 
-app.get("/store/get", (req, res) => {
-    client.query(`Select * FROM storedetail`, (err, data) => {
+app.post("/store/get", (req, res) => {
+    const {lat,lon}=req.body;
+    const query = `
+      SELECT *
+      FROM storedetail t
+      WHERE
+        ST_DistanceSphere(t.location::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) < 5000;
+    `;
+    client.query(query, (err, data) => {
         if (!err) {
             res.status(200).send({ data: data.rows })
         }
@@ -761,7 +768,7 @@ app.post("/get/seller/stores", (req, res) => {
 });
 
 
-//////////   Store Route     /////////////
+//////////   Wishlist Route     /////////////
 app.post("/wishlist/add", (req, res) => {
     const { image, productname, storeid, customerid, productid, price } = req.body;
     const text = `
