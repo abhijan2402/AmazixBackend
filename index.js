@@ -1104,6 +1104,18 @@ app.post("/seller/getSeller", (req, res) => {
     })
 })
 
+app.post("/seller/getSeller/storeid", (req, res) => {
+    const { storeid } = req.body;
+    client.query(`SELECT * FROM sellers  where storeid='${storeid}'`, (err, data) => {
+        if (!err) {
+            res.status(200).send(data.rows[0])
+        }
+        else {
+            res.status(401).send(err)
+        }
+    })
+})
+
 
 //////////   StartDuty Route     /////////////
 app.post("/StartDuty", (req, res) => {
