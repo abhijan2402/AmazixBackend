@@ -66,8 +66,6 @@ app.post("/Cart/get/customentid", (req, res) => {
         }
     })
 });
-
-
 app.delete("/Cart/delete", (req, res) => {
     const { id } = req.body;
     client.query(`DELETE FROM Cart WHERE id='${id}'`, (err, data) => {
