@@ -141,7 +141,7 @@ app.post("/chatlist/add", (req, res) => {
       chatlist(id,chatroomid,usernames,image,productid) 
       VALUES ($1,$2,$3,$4,$5) RETURNING *
   `;
-    client.query(text, [uuidv4(), chatroomid, arrayData, image,productid], (err, data) => {
+    client.query(text, [uuidv4(), chatroomid, arrayData, image, productid], (err, data) => {
         if (err) {
             res.send(err);
         } else {
@@ -229,13 +229,13 @@ app.post("/chat/get/id", (req, res) => {
 
 //////////   Customer Route     /////////////
 app.post("/Customer/add", (req, res) => {
-    const { id, name, email, phone, address, city, state, profilestatus, location,fcmtoken } = req.body;
+    const { id, name, email, phone, address, city, state, profilestatus, location, fcmtoken } = req.body;
     const text = `
       INSERT INTO 
       Customer(id,name,email,phone,address,city,state,profilestatus,followings,wishtlist,location,profileimage,fcmtoken) 
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *
   `;
-    client.query(text, [id, name, email, phone, address, city, state, profilestatus, [], [], location,"",fcmtoken], (err, data) => {
+    client.query(text, [id, name, email, phone, address, city, state, profilestatus, [], [], location, "", fcmtoken], (err, data) => {
         if (err) {
             res.send({ data: err });
         } else {
@@ -428,7 +428,7 @@ app.post("/order/add", (req, res) => {
         length: 16,
         useLetters: false
     });
-    client.query(text, [orderID, storeID, customerID, orderDate, returnDate, customerAddress, orderStatus, totalAmount, totalItems, orderby, storeAddress, shopName, paymentStatus, paymentType, arrayData,deliveryboyid, customerbehaviour, customerlocation, customercontact, customerlandmark, otp, expectedDeliveryTime, expectedDistance,handlingcash,sellerphone,storelocation,orderTip], (err, data) => {
+    client.query(text, [orderID, storeID, customerID, orderDate, returnDate, customerAddress, orderStatus, totalAmount, totalItems, orderby, storeAddress, shopName, paymentStatus, paymentType, arrayData, deliveryboyid, customerbehaviour, customerlocation, customercontact, customerlandmark, otp, expectedDeliveryTime, expectedDistance, handlingcash, sellerphone, storelocation, orderTip], (err, data) => {
         if (err) {
             res.send(err);
         } else {
@@ -533,13 +533,13 @@ app.post("/order/delivery/pastweek", (req, res) => {
 
 //////////   Product Route     /////////////
 app.post("/product/add", (req, res) => {
-    const { name, categoryName, price, discountedPrice, quantity, produtType, deiails, variants, paymentMode, tags, imageUrls, storeID,country,otherdetails } = req.body;
+    const { name, categoryName, price, discountedPrice, quantity, produtType, deiails, variants, paymentMode, tags, imageUrls, storeID, country, otherdetails } = req.body;
     const text = `
       INSERT INTO 
       product(id,name,categoryName,price,discountedPrice,quantity,produtType,deiails,variants,paymentMode,tags,imageUrls,storeID,isActive,country,otherdetails) 
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16) RETURNING *
   `;
-    client.query(text, [uuidv4(), name, categoryName, price, discountedPrice, quantity, [...produtType], deiails, [...variants], [...paymentMode], [...tags], [...imageUrls], storeID, true,country,otherdetails], (err, data) => {
+    client.query(text, [uuidv4(), name, categoryName, price, discountedPrice, quantity, [...produtType], deiails, [...variants], [...paymentMode], [...tags], [...imageUrls], storeID, true, country, otherdetails], (err, data) => {
         if (err) {
             res.send({ data: err });
         } else {
@@ -626,7 +626,7 @@ app.post("/search/product", (req, res) => {
 })
 
 app.post("/search/store", (req, res) => {
-    const { storename,lat,lon } = req.body;
+    const { storename, lat, lon } = req.body;
     const query = {
         text: `SELECT * FROM storedetail t WHERE shopname ILIKE $1 and ST_DistanceSphere(t.location::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) < 5000`,
         values: [`%${storename}%`],
@@ -655,7 +655,7 @@ app.post("/search/address", (req, res) => {
 })
 
 app.post("/search/store/category", (req, res) => {
-    const { category,lat,lon } = req.body;
+    const { category, lat, lon } = req.body;
     const query = {
         text: `SELECT * FROM storedetail t WHERE storecategory ILIKE $1 and ST_DistanceSphere(t.location::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) < 5000`,
         values: [`%${category}%`],
@@ -679,7 +679,7 @@ app.post("/store/add", (req, res) => {
           id,ShopName,StoreCategory,GSTNum,StoreAddress,LatitudeCords,LongitudeCords,AccountNumber,IFSECode,BankName,Branch,imageUrl,totalProducts,followers,rating,storevisits,productsview,sellerid,isstoreopenclose,location)
           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,ST_SetSRID(ST_MakePoint(${parseFloat(LatitudeCords)},${parseFloat(LongitudeCords)}), 4326)) RETURNING *
       `;
-    client.query(text, [uuidv4(), ShopName, StoreCategory, GSTNum, StoreAddress, LatitudeCords, LongitudeCords, AccountNumber, IFSECode, BankName, Branch, imageUrl, 0, 0, 0, 0, 0, sellerid,true], (err, data) => {
+    client.query(text, [uuidv4(), ShopName, StoreCategory, GSTNum, StoreAddress, LatitudeCords, LongitudeCords, AccountNumber, IFSECode, BankName, Branch, imageUrl, 0, 0, 0, 0, 0, sellerid, true], (err, data) => {
         if (err) {
             res.send({ data: err });
         } else {
@@ -713,7 +713,7 @@ app.delete("/store/delete", (req, res) => {
 })
 
 app.post("/store/get", (req, res) => {
-    const {lat,lon}=req.body;
+    const { lat, lon } = req.body;
     const query = `
       SELECT *
       FROM storedetail t
@@ -1130,8 +1130,8 @@ app.post("/StartDuty", (req, res) => {
 
 //////////   Wallet Route     /////////////
 app.post("/wallet", (req, res) => {
-    client.query("INSERT INTO wallet (id, TransactionType,Amount,SenderName,SenderId,ReceiverId,ReceiverName) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7) RETURNING *",
-        [uuidv4(), req.body.TransactionType, req.body.Amount, req.body.SenderName, req.body.SenderId, req.body.ReceiverId, req.body.ReceiverName], (err, data) => {
+    client.query("INSERT INTO wallet (id, totalamount,walletid) VALUES ($1, $2 ,$3) RETURNING *",
+        [uuidv4(), req.body.totalamount, req.body.walletid], (err, data) => {
             if (err) {
                 res.status(401).send(err)
             }
@@ -1140,6 +1140,20 @@ app.post("/wallet", (req, res) => {
             }
         })
 });
+
+
+app.post("/walletdata", (req, res) => {
+    client.query("INSERT INTO walletdata (id, TransactionType,Amount,SenderName,SenderId,ReceiverId,ReceiverName) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7) RETURNING *",
+        [req.body.id, req.body.TransactionType, req.body.Amount, req.body.SenderName, req.body.SenderId, req.body.ReceiverId, req.body.ReceiverName], (err, data) => {
+            if (err) {
+                res.status(401).send(err)
+            }
+            else {
+                res.status(200).send(data.rows)
+            }
+        })
+});
+
 
 
 
@@ -1210,6 +1224,6 @@ app.post("/storeSpecBanner/add", (req, res) => {
             res.send({ data: data.rows[0], message: "You Data is inserted" })
         }
     })
-});   
+});
 
 app.use(notificationSendRoute)
