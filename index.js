@@ -1156,7 +1156,17 @@ app.post("/walletdata", (req, res) => {
 
 
 
-
+app.post("/store/openCharge", (req, res) => {
+    client.query("INSERT INTO storeOpenCharge (id, paymentImage,storeid,date) VALUES ($1, $2 ,$3, $4) RETURNING *",
+        [uuidv4(), req.body.paymentImage, req.body.storeid, req.body.date], (err, data) => {
+            if (err) {
+                res.status(401).send(err)
+            }
+            else {
+                res.status(200).send(data.rows)
+            }
+        })
+});
 app.get("/walletById", (req, res) => {
     const { id } = req.body;
     client.query(`SELECT * FROM wallet where id='${id}'`, (err, data) => {
