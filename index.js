@@ -993,10 +993,12 @@ app.post("/deliveryboy/get/availableity", (req, res) => {
     `;
     client.query(query, (err, data) => {
         if (!err) {
-            res.status(200).send({ data: data.rows })
+            if(data.rows.length===0)
+                res.status(200).send({ data: [] })
+            else   
+                res.status(200).send({ data: data.rows[0] })
         }
         else {
-            console.log(err)
             res.status(401).send({ data: err })
         }
     })
