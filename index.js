@@ -628,7 +628,7 @@ app.post("/search/product", (req, res) => {
 app.post("/search/store", (req, res) => {
     const { storename, lat, lon } = req.body;
     const query = {
-        text: `SELECT * FROM storedetail t WHERE shopname ILIKE $1 and ST_DistanceSphere(t.location::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) < 5000`,
+        text: `SELECT * FROM storedetail t WHERE shopname ILIKE $1 and ST_DistanceSphere(t.location::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) < 3000`,
         values: [`%${storename}%`],
     };
     client.query(query)
@@ -657,7 +657,7 @@ app.post("/search/address", (req, res) => {
 app.post("/search/store/category", (req, res) => {
     const { category, lat, lon } = req.body;
     const query = {
-        text: `SELECT * FROM storedetail t WHERE storecategory ILIKE $1 and ST_DistanceSphere(t.location::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) < 5000`,
+        text: `SELECT * FROM storedetail t WHERE storecategory ILIKE $1 and ST_DistanceSphere(t.location::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) < 3000`,
         values: [`%${category}%`],
     };
     client.query(query)
@@ -718,7 +718,7 @@ app.post("/store/get", (req, res) => {
       SELECT *
       FROM storedetail t
       WHERE
-        ST_DistanceSphere(t.location::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) < 5000;
+        ST_DistanceSphere(t.location::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) < 3000;
     `;
     client.query(query, (err, data) => {
         if (!err) {
@@ -946,7 +946,7 @@ app.post("/DeliveryRegis", (req, res) => {
                 $20,
                 $21,
                 ST_SetSRID(ST_MakePoint(${parseFloat(req.body.latitude)},${parseFloat(req.body.longitude)}), 4326)
-            )
+            ) RETURNING *
         `, 
         [
             req.body.id, 
@@ -977,11 +977,30 @@ app.post("/DeliveryRegis", (req, res) => {
             res.send({ data: err, message: "Problem" })
         }
         else {
+            console.log(data.rows);
             res.send({ data: data.rows, message: "You data is inserted" })
         }
     })
 });
 
+app.post("/deliveryboy/get/availableity", (req, res) => {
+    const { lat, lon } = req.body;
+    const query = `
+      SELECT *
+      FROM deliveryregister t
+      WHERE
+        ST_DistanceSphere(t.locationstring::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) < 3000 and isbusy=false
+    `;
+    client.query(query, (err, data) => {
+        if (!err) {
+            res.status(200).send({ data: data.rows })
+        }
+        else {
+            console.log(err)
+            res.status(401).send({ data: err })
+        }
+    })
+})
 
 //////////   Feedback Route     /////////////
 app.post("/feedback/add", (req, res) => {
