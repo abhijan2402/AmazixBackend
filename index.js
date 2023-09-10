@@ -989,7 +989,7 @@ app.post("/deliveryboy/get/availableity", (req, res) => {
       SELECT *
       FROM deliveryregister t
       WHERE
-        ST_DistanceSphere(t.locationstring::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) < 3000 and isbusy=false
+        ST_DistanceSphere(t.locationstring::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) <= 5000 and isbusy=false
     `;
     client.query(query, (err, data) => {
         if (!err) {
@@ -1003,6 +1003,21 @@ app.post("/deliveryboy/get/availableity", (req, res) => {
         }
     })
 })
+app.post("/deliveryboy/update/location", (req, res) => {
+    const { lat, lon, id } = req.body;
+    const query = `UPDATE deliveryregister
+        SET locationstring = ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326),latitude='${lat}',longitude='${lon}'
+        WHERE id = '${id}'`;
+    client.query(query, (err, data) => {
+        if (!err) {
+            res.status(200).send({ data: "Location Updated" })
+        }
+        else {
+            res.status(401).send({ data: err })
+        }
+    })
+})
+
 
 //////////   Feedback Route     /////////////
 app.post("/feedback/add", (req, res) => {
