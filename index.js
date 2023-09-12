@@ -991,7 +991,7 @@ app.post("/deliveryboy/get/availableity", (req, res) => {
       SELECT *
       FROM deliveryregister t
       WHERE
-        ST_DistanceSphere(t.locationstring::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) <= 5000 and isbusy=false
+        ST_DistanceSphere(t.locationstring::geometry, ST_SetSRID(ST_MakePoint(${parseFloat(lat)}, ${parseFloat(lon)}), 4326)) <= 5000 and isbusy=false and isavailable=true
     `;
     client.query(query, (err, data) => {
         if (!err) {
