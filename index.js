@@ -922,7 +922,7 @@ app.delete(`/coupen/FlatCoupon/:id`, (req, res) => {
 app.post("/DeliveryRegis", (req, res) => {
     client.query(
         `
-            INSERT INTO DeliveryRegister (id, name,email,fcmToken,phone,DeliveryBoyId,AadharFront,AadharBack,PanFront,PanBack,DrivingrFront,DrivingBack,BankName,AccountNumber,IFSECode,Address,SelfieUrl,profilestatus,latitude,longitude,isbusy,locationString) 
+            INSERT INTO DeliveryRegister (id, name,email,fcmToken,phone,DeliveryBoyId,AadharFront,AadharBack,PanFront,PanBack,DrivingrFront,DrivingBack,BankName,AccountNumber,IFSECode,Address,SelfieUrl,profilestatus,latitude,longitude,isbusy,isavailable,locationString) 
             VALUES (
                 $1, 
                 $2,
@@ -945,42 +945,44 @@ app.post("/DeliveryRegis", (req, res) => {
                 $19,
                 $20,
                 $21,
+                $22,
                 ST_SetSRID(ST_MakePoint(${parseFloat(req.body.latitude)},${parseFloat(req.body.longitude)}), 4326)
             ) RETURNING *
-        `, 
+        `,
         [
-            req.body.id, 
-            req.body.name, 
-            req.body.email, 
-            req.body.fcmToken, 
-            req.body.phone, 
-            req.body.DeliveryBoyId, 
-            req.body.AadharFront, 
-            req.body.AadharBack, 
-            req.body.PanFront, 
-            req.body.PanBack, 
-            req.body.DrivingrFront, 
-            req.body.DrivingBack, 
-            req.body.BankName, 
-            req.body.AccountNumber, 
-            req.body.IFSECode, 
-            req.body.Address, 
-            req.body.SelfieUrl, 
+            req.body.id,
+            req.body.name,
+            req.body.email,
+            req.body.fcmToken,
+            req.body.phone,
+            req.body.DeliveryBoyId,
+            req.body.AadharFront,
+            req.body.AadharBack,
+            req.body.PanFront,
+            req.body.PanBack,
+            req.body.DrivingrFront,
+            req.body.DrivingBack,
+            req.body.BankName,
+            req.body.AccountNumber,
+            req.body.IFSECode,
+            req.body.Address,
+            req.body.SelfieUrl,
             req.body.profilestatus,
             req.body.latitude,
             req.body.longitude,
+            req.body.isavailable,
             false
-        ], 
+        ],
         (err, data) => {
-        if (err) {
-            console.log(err);
-            res.send({ data: err, message: "Problem" })
-        }
-        else {
-            console.log(data.rows);
-            res.send({ data: data.rows, message: "You data is inserted" })
-        }
-    })
+            if (err) {
+                console.log(err);
+                res.send({ data: err, message: "Problem" })
+            }
+            else {
+                console.log(data.rows);
+                res.send({ data: data.rows, message: "You data is inserted" })
+            }
+        })
 });
 
 app.post("/deliveryboy/get/availableity", (req, res) => {
@@ -993,9 +995,9 @@ app.post("/deliveryboy/get/availableity", (req, res) => {
     `;
     client.query(query, (err, data) => {
         if (!err) {
-            if(data.rows.length===0)
+            if (data.rows.length === 0)
                 res.status(200).send({ data: [] })
-            else   
+            else
                 res.status(200).send({ data: data.rows[0] })
         }
         else {
@@ -1300,9 +1302,9 @@ app.post("/globalCategory/add", (req, res) => {
 app.get("/category/get/global", (req, res) => {
     client.query('select * from globalcategory', (err, data) => {
         if (err) {
-            res.send({ data: err,status:500 });
+            res.send({ data: err, status: 500 });
         } else {
-            res.send({ data: data.rows,status:200 })
+            res.send({ data: data.rows, status: 200 })
         }
     })
 });
