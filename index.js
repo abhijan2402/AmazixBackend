@@ -479,7 +479,7 @@ app.post("/order/get/id", (req, res) => {
 
 app.post("/order/storeId", (req, res) => {
     const { id } = req.body;
-    client.query(`SELECT * FROM orders where storeid='${id}'`, (err, data) => {
+    client.query(`SELECT * FROM orders where storeid='${id}' order by orderdate desc`, (err, data) => {
         if (err) {
             res.status(401).send({ data: err });
         } else {
@@ -490,7 +490,7 @@ app.post("/order/storeId", (req, res) => {
 
 app.post("/order/customerId", (req, res) => {
     const { id } = req.body;
-    client.query(`SELECT * FROM orders where customerid='${id}'`, (err, data) => {
+    client.query(`SELECT * FROM orders where customerid='${id}' order by orderdate desc`, (err, data) => {
         if (err) {
             res.status(401).send({ data: err });
         } else {
@@ -501,7 +501,7 @@ app.post("/order/customerId", (req, res) => {
 
 app.post("/order/deliveryId", (req, res) => {
     const { id } = req.body;
-    client.query(`SELECT * FROM orders where deliveryboyId='${id}'`, (err, data) => {
+    client.query(`SELECT * FROM orders where deliveryboyId='${id}' order by orderdate desc`, (err, data) => {
         if (err) {
             res.status(401).send({ data: err });
         } else {
