@@ -1233,8 +1233,8 @@ app.post("/wallet", (req, res) => {
 
 
 app.post("/walletdata", (req, res) => {
-    client.query("INSERT INTO walletdata (id, TransactionType,Amount,SenderName,SenderId,ReceiverId,ReceiverName) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7) RETURNING *",
-        [req.body.id, req.body.TransactionType, req.body.Amount, req.body.SenderName, req.body.SenderId, req.body.ReceiverId, req.body.ReceiverName], (err, data) => {
+    client.query("INSERT INTO walletdata (id, TransactionType,Amount,SenderName,SenderId,ReceiverId,ReceiverName,walletid) VALUES ($1, $2 ,$3, $4 ,$5, $6, $7,$8) RETURNING *",
+        [req.body.id, req.body.TransactionType, req.body.Amount, req.body.SenderName, req.body.SenderId, req.body.ReceiverId, req.body.ReceiverName,req.body.walletid], (err, data) => {
             if (err) {
                 res.status(401).send(err)
             }
