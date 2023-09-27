@@ -311,6 +311,34 @@ app.post("/getById", (req, res) => {
     })
 })
 
+app.post("/getCouponByCode", (req, res) => {
+    const { couponCode } = req.body;
+    let finalQuery = `select * from percoupon where couponcode='${couponCode}'`
+    let secondQuery = `select * from flatcoupon where couponcode='${couponCode}'`
+    client.query(finalQuery, (err, data) => {
+        if (err) {
+            res.send({ data: err })
+        }
+        else {
+            if(data.rows.length!=0)
+                res.send({ data: data.rows, message: "Your Data is here" })
+            else{
+                client.query(secondQuery, (err, data) => {
+                    if (err) {
+                        res.send({ data: err })
+                    }
+                    else {
+                        if(data.rows.length!=0)
+                            res.send({ data: data.rows, message: "Your Data is here" })
+                        else{
+                            res.send({ data: [], message: "Your Data is here" })
+                        }
+                    }
+                })
+            }
+        }
+    })
+})
 
 app.post("/getAllData", (req, res) => {
     const { tablename } = req.body;
